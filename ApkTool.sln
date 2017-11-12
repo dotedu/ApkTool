@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApkTool", "ApkTool\ApkTool.csproj", "{2BFE8479-B24F-4E6F-A23C-A5FAA3AC0A45}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BFE8479-B24F-4E6F-A23C-A5FAA3AC0A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BFE8479-B24F-4E6F-A23C-A5FAA3AC0A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BFE8479-B24F-4E6F-A23C-A5FAA3AC0A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BFE8479-B24F-4E6F-A23C-A5FAA3AC0A45}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {130B7D30-90B4-495F-AFCD-E2D2D85DE49C}
+	EndGlobalSection
+EndGlobal
