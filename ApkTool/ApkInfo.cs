@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ApkTool
 {
-    public partial class Form1 : Form
+    public partial class ApkInfo : Form
     {
-        public Form1()
+        public ApkInfo()
         {
             InitializeComponent();
         }
