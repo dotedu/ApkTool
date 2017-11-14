@@ -71,6 +71,7 @@ namespace ApkTool
             txtApkSize.Text = apkDecoder.ApkSize;
 
             this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+            this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
         }
 
 
@@ -81,6 +82,15 @@ namespace ApkTool
             Process.Start(url);
 
         }
+
+        private void btnQQStore_Click(object sender, EventArgs e)
+        {
+            string url = string.Format("http://android.myapp.com/myapp/detail.htm?apkName={0}", txtPackage.Text);
+            Process.Start(url);
+
+        }
+
+
         void RunAsync(Action action)
         {
             ((Action)(delegate () {
@@ -95,10 +105,6 @@ namespace ApkTool
             }));
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            this.treeView1.Nodes.Clear();
-        }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -116,5 +122,6 @@ namespace ApkTool
                     node.Collapse();
             }
         }
+
     }
 }

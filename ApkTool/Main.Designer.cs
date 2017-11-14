@@ -29,26 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("节点5");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("节点3", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("节点4");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("节点0", new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("节点6");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("节点8");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("节点7", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("节点1", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("节点2");
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.TopPanel = new System.Windows.Forms.Panel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.OpenBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnPlayStore = new System.Windows.Forms.ToolStripButton();
+            this.btnQQStore = new System.Windows.Forms.ToolStripButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -80,13 +65,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnPlayStore = new System.Windows.Forms.Button();
             this.imgIcon = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.Ofd = new System.Windows.Forms.OpenFileDialog();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -94,17 +80,18 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // TopPanel
             // 
-            this.panel1.Controls.Add(this.ToolBar);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.panel1.Size = new System.Drawing.Size(704, 28);
-            this.panel1.TabIndex = 2;
+            this.TopPanel.Controls.Add(this.ToolBar);
+            this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TopPanel.Location = new System.Drawing.Point(0, 0);
+            this.TopPanel.Name = "TopPanel";
+            this.TopPanel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TopPanel.Size = new System.Drawing.Size(704, 27);
+            this.TopPanel.TabIndex = 2;
             // 
             // ToolBar
             // 
@@ -113,13 +100,14 @@
             this.ToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenBtn,
-            this.toolStripButton2,
-            this.toolStripButton1});
+            this.toolStripSeparator1,
+            this.btnPlayStore,
+            this.btnQQStore});
             this.ToolBar.Location = new System.Drawing.Point(5, 0);
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.ToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ToolBar.Size = new System.Drawing.Size(694, 28);
+            this.ToolBar.Size = new System.Drawing.Size(694, 27);
             this.ToolBar.TabIndex = 0;
             this.ToolBar.Text = "toolStrip1";
             // 
@@ -130,38 +118,41 @@
             this.OpenBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenBtn.Margin = new System.Windows.Forms.Padding(0, 1, 2, 2);
             this.OpenBtn.Name = "OpenBtn";
-            this.OpenBtn.Size = new System.Drawing.Size(23, 25);
+            this.OpenBtn.Size = new System.Drawing.Size(23, 24);
             this.OpenBtn.Text = "打开文件";
             this.OpenBtn.Click += new System.EventHandler(this.OpenBtn_Click);
             // 
-            // toolStripButton2
+            // btnPlayStore
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(0, 1, 2, 2);
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 25);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.btnPlayStore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPlayStore.Enabled = false;
+            this.btnPlayStore.Image = ((System.Drawing.Image)(resources.GetObject("btnPlayStore.Image")));
+            this.btnPlayStore.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPlayStore.Margin = new System.Windows.Forms.Padding(0, 1, 2, 2);
+            this.btnPlayStore.Name = "btnPlayStore";
+            this.btnPlayStore.Size = new System.Drawing.Size(23, 22);
+            this.btnPlayStore.Text = "谷歌商店";
+            this.btnPlayStore.Click += new System.EventHandler(this.btnPlayStore_Click);
             // 
-            // toolStripButton1
+            // btnQQStore
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 25);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.btnQQStore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnQQStore.Enabled = false;
+            this.btnQQStore.Image = ((System.Drawing.Image)(resources.GetObject("btnQQStore.Image")));
+            this.btnQQStore.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnQQStore.Name = "btnQQStore";
+            this.btnQQStore.Size = new System.Drawing.Size(23, 22);
+            this.btnQQStore.Text = "应用宝";
+            this.btnQQStore.Click += new System.EventHandler(this.btnQQStore_Click);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.tabControl1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 28);
+            this.panel2.Location = new System.Drawing.Point(0, 27);
             this.panel2.MinimumSize = new System.Drawing.Size(80, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(704, 533);
+            this.panel2.Size = new System.Drawing.Size(704, 474);
             this.panel2.TabIndex = 4;
             // 
             // treeView1
@@ -169,28 +160,6 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "节点5";
-            treeNode1.Text = "节点5";
-            treeNode2.Name = "节点3";
-            treeNode2.Text = "节点3";
-            treeNode3.Name = "节点4";
-            treeNode3.Text = "节点4";
-            treeNode4.Name = "节点0";
-            treeNode4.Text = "节点0";
-            treeNode5.Name = "节点6";
-            treeNode5.Text = "节点6";
-            treeNode6.Name = "节点8";
-            treeNode6.Text = "节点8";
-            treeNode7.Name = "节点7";
-            treeNode7.Text = "节点7";
-            treeNode8.Name = "节点1";
-            treeNode8.Text = "节点1";
-            treeNode9.Name = "节点2";
-            treeNode9.Text = "节点2";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode8,
-            treeNode9});
             this.treeView1.Size = new System.Drawing.Size(156, 497);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -215,7 +184,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(3, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(704, 533);
+            this.tabControl1.Size = new System.Drawing.Size(704, 474);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -247,13 +216,12 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.btnPlayStore);
             this.tabPage1.Controls.Add(this.imgIcon);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(696, 507);
+            this.tabPage1.Size = new System.Drawing.Size(696, 448);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "APK信息";
             // 
@@ -507,19 +475,6 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "应用名称：";
             // 
-            // btnPlayStore
-            // 
-            this.btnPlayStore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPlayStore.Enabled = false;
-            this.btnPlayStore.Location = new System.Drawing.Point(18, 440);
-            this.btnPlayStore.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnPlayStore.Name = "btnPlayStore";
-            this.btnPlayStore.Size = new System.Drawing.Size(75, 23);
-            this.btnPlayStore.TabIndex = 45;
-            this.btnPlayStore.Text = "Play Store";
-            this.btnPlayStore.UseVisualStyleBackColor = true;
-            this.btnPlayStore.Click += new System.EventHandler(this.btnPlayStore_Click);
-            // 
             // imgIcon
             // 
             this.imgIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -560,24 +515,39 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.textBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(166, 3);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(527, 501);
             this.panel4.TabIndex = 7;
             // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(0, 0);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(527, 501);
+            this.textBox1.TabIndex = 0;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 561);
+            this.ClientSize = new System.Drawing.Size(704, 501);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
-            this.MinimumSize = new System.Drawing.Size(720, 600);
+            this.Controls.Add(this.TopPanel);
+            this.MinimumSize = new System.Drawing.Size(720, 540);
             this.Name = "Main";
             this.Text = "Form1";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.TopPanel.ResumeLayout(false);
+            this.TopPanel.PerformLayout();
             this.ToolBar.ResumeLayout(false);
             this.ToolBar.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -587,19 +557,21 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel TopPanel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ToolStrip ToolBar;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton btnPlayStore;
         private System.Windows.Forms.ToolStripButton OpenBtn;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnQQStore;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -629,11 +601,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnPlayStore;
         private System.Windows.Forms.PictureBox imgIcon;
         private System.Windows.Forms.OpenFileDialog Ofd;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
