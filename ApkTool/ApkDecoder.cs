@@ -133,6 +133,7 @@ namespace ApkTool
                 this.infos.Clear();
                 using (var process = Process.Start(startInfo))
                 {
+                    process.WaitForExit();
                 }
                 if (File.Exists(dumpFile))
                 {
