@@ -13,11 +13,72 @@ namespace ApkTool
             InitializeComponent();
         }
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+            Program.api.FilesTable.Columns.Add("id", Type.GetType("System.Int32"));
+            Program.api.FilesTable.Columns[0].AutoIncrement = true;
+            Program.api.FilesTable.Columns[0].AutoIncrementSeed = 1;
+            Program.api.FilesTable.Columns[0].AutoIncrementStep = 1;
+            Program.api.FilesTable.Columns.Add("name", Type.GetType("System.String"));
+            Program.api.FilesTable.Columns.Add("parentid", Type.GetType("System.Int32"));
+            Program.api.FilesTable.Columns.Add("index", Type.GetType("System.Int32"));
+            Program.api.FilesTable.Columns.Add("leve;", Type.GetType("System.Int32"));
+        }
         private void OpenBtn_Click(object sender, EventArgs e)
         {
             if (Ofd.ShowDialog() == DialogResult.OK || Ofd.ShowDialog() == DialogResult.Yes)
             {
-                DecodeApk(Ofd.FileName);
+                Program.api.ApkPath = Ofd.FileName;
+
+                Program.api.OnAAptMiss = () => {
+                    RunInMainthread(() => {
+                        MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnUzipMiss = () => {
+                    RunInMainthread(() => {
+                        MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnDumpFail = () => {
+                    RunInMainthread(() => {
+                        //MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnDumpSuccess = () => {
+                    RunInMainthread(() => {
+                        txtApplication.Text = Program.api.AppName;
+                        txtVersion.Text = Program.api.AppVersion;
+                        txtVersionCode.Text = Program.api.AppVersionCode;
+                        txtPackage.Text = Program.api.PkgName;
+                        txtIconPath.Text = Program.api.IconPath;
+                        txtMinSdk.Text = Program.api.MinSdk;
+                        txtMinVersion.Text = Program.api.MinVersion;
+                        txtScreenSize.Text = Program.api.ScreenSupport;
+                        txtScreenSolution.Text = Program.api.ScreenSolutions;
+                        txtPermission.Text = Program.api.Permissions;
+                        txtFeature.Text = Program.api.Features;
+                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : this.Icon.ToBitmap();
+
+                        txtApkPath.Text = Program.api.ApkPath;
+                        txtApkSize.Text = Program.api.ApkSize;
+
+                        this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                        this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                    });
+                };
+
+                RunAsync(() => {
+
+                    Dump_Badging(Program.api.ApkPath);
+                });
+                RunAsync(() => {
+
+                    List_A(Program.api.ApkPath);
+                });
 
             }
         }
@@ -26,53 +87,22 @@ namespace ApkTool
 
 
 
-        private void DecodeApk(string apkPath)
+        private void Dump_Badging(string apkPath)
         {
             if (!File.Exists(apkPath))
                 return;
+            Program.api.DumpBadging(apkPath);
 
-            ApkDecoder apkDecoder = new ApkDecoder(apkPath);
-            apkDecoder.InfoParsedEvent += new Action<ApkDecoder>(apkDecoder_InfoParsed);
-            apkDecoder.AaptNotFoundEvent += new MethodInvoker(apkDecoder_AaptNotFound);
         }
 
-        private void apkDecoder_InfoParsed(ApkDecoder apkDecoder)
+        private void List_A(string apkPath)
         {
-            this.Invoke(new Action<ApkDecoder>(SafeInfoParsed), apkDecoder);
+            if (!File.Exists(apkPath))
+                return;
+            Program.api.ListContents(apkPath);
+
         }
 
-        private void apkDecoder_AaptNotFound()
-        {
-            this.Invoke(new MethodInvoker(ShowAaptNotFoundInfo));
-        }
-
-        private void ShowAaptNotFoundInfo()
-        {
-            MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-
-        private void SafeInfoParsed(ApkDecoder apkDecoder)
-        {
-            txtApplication.Text = apkDecoder.AppName;
-            txtVersion.Text = apkDecoder.AppVersion;
-            txtVersionCode.Text = apkDecoder.AppVersionCode;
-            txtPackage.Text = apkDecoder.PkgName;
-            txtIconPath.Text = apkDecoder.IconPath;
-            txtMinSdk.Text = apkDecoder.MinSdk;
-            txtMinVersion.Text = apkDecoder.MinVersion;
-            txtScreenSize.Text = apkDecoder.ScreenSupport;
-            txtScreenSolution.Text = apkDecoder.ScreenSolutions;
-            txtPermission.Text = apkDecoder.Permissions;
-            txtFeature.Text = apkDecoder.Features;
-            imgIcon.Image = (apkDecoder.AppIcon != null) ? apkDecoder.AppIcon : this.Icon.ToBitmap();
-
-            txtApkPath.Text = apkDecoder.ApkPath;
-            txtApkSize.Text = apkDecoder.ApkSize;
-
-            this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-            this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-        }
 
 
 
@@ -122,6 +152,7 @@ namespace ApkTool
                     node.Collapse();
             }
         }
+
 
     }
 }

@@ -32,11 +32,10 @@
             this.TopPanel = new System.Windows.Forms.Panel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.OpenBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPlayStore = new System.Windows.Forms.ToolStripButton();
             this.btnQQStore = new System.Windows.Forms.ToolStripButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label13 = new System.Windows.Forms.Label();
@@ -67,20 +66,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.imgIcon = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.Ofd = new System.Windows.Forms.OpenFileDialog();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel4 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.Ofd = new System.Windows.Forms.OpenFileDialog();
             this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -122,6 +122,11 @@
             this.OpenBtn.Text = "打开文件";
             this.OpenBtn.Click += new System.EventHandler(this.OpenBtn_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            // 
             // btnPlayStore
             // 
             this.btnPlayStore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -130,7 +135,7 @@
             this.btnPlayStore.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPlayStore.Margin = new System.Windows.Forms.Padding(0, 1, 2, 2);
             this.btnPlayStore.Name = "btnPlayStore";
-            this.btnPlayStore.Size = new System.Drawing.Size(23, 22);
+            this.btnPlayStore.Size = new System.Drawing.Size(23, 24);
             this.btnPlayStore.Text = "谷歌商店";
             this.btnPlayStore.Click += new System.EventHandler(this.btnPlayStore_Click);
             // 
@@ -141,7 +146,7 @@
             this.btnQQStore.Image = ((System.Drawing.Image)(resources.GetObject("btnQQStore.Image")));
             this.btnQQStore.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnQQStore.Name = "btnQQStore";
-            this.btnQQStore.Size = new System.Drawing.Size(23, 22);
+            this.btnQQStore.Size = new System.Drawing.Size(23, 24);
             this.btnQQStore.Text = "应用宝";
             this.btnQQStore.Click += new System.EventHandler(this.btnQQStore_Click);
             // 
@@ -154,26 +159,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(704, 474);
             this.panel2.TabIndex = 4;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(156, 497);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Controls.Add(this.treeView1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.MinimumSize = new System.Drawing.Size(100, 4);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(160, 501);
-            this.panel3.TabIndex = 5;
             // 
             // tabControl1
             // 
@@ -495,23 +480,9 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(696, 507);
+            this.tabPage2.Size = new System.Drawing.Size(696, 448);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "解析数据";
-            // 
-            // Ofd
-            // 
-            this.Ofd.FileName = "打开文件";
-            this.Ofd.Filter = "Apk文件(*.apk)|*.apk";
-            this.Ofd.RestoreDirectory = true;
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(163, 3);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 501);
-            this.splitter1.TabIndex = 6;
-            this.splitter1.TabStop = false;
             // 
             // panel4
             // 
@@ -519,7 +490,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(166, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(527, 501);
+            this.panel4.Size = new System.Drawing.Size(527, 442);
             this.panel4.TabIndex = 7;
             // 
             // textBox1
@@ -528,13 +499,42 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(527, 501);
+            this.textBox1.Size = new System.Drawing.Size(527, 442);
             this.textBox1.TabIndex = 0;
             // 
-            // toolStripSeparator1
+            // splitter1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.splitter1.Location = new System.Drawing.Point(163, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 442);
+            this.splitter1.TabIndex = 6;
+            this.splitter1.TabStop = false;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.treeView1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.MinimumSize = new System.Drawing.Size(100, 4);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(160, 442);
+            this.panel3.TabIndex = 5;
+            // 
+            // treeView1
+            // 
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(156, 438);
+            this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
+            // Ofd
+            // 
+            this.Ofd.FileName = "打开文件";
+            this.Ofd.Filter = "Apk文件(*.apk)|*.apk";
+            this.Ofd.RestoreDirectory = true;
             // 
             // Main
             // 
@@ -546,12 +546,12 @@
             this.MinimumSize = new System.Drawing.Size(720, 540);
             this.Name = "Main";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Main_Load);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
             this.ToolBar.ResumeLayout(false);
             this.ToolBar.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -559,6 +559,7 @@
             this.tabPage2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

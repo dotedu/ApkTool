@@ -8,6 +8,8 @@ namespace ApkTool
 {
     static class Program
     {
+        public static DecodeProvider api = new DecodeProvider();
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
