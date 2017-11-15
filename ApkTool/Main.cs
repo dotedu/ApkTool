@@ -20,12 +20,14 @@ namespace ApkTool
             Program.api.FilesTable.Columns[0].AutoIncrementSeed = 1;
             Program.api.FilesTable.Columns[0].AutoIncrementStep = 1;
             Program.api.FilesTable.Columns.Add("name", Type.GetType("System.String"));
-            Program.api.FilesTable.Columns.Add("parentid", Type.GetType("System.Int32"));
-            Program.api.FilesTable.Columns.Add("index", Type.GetType("System.Int32"));
-            Program.api.FilesTable.Columns.Add("leve;", Type.GetType("System.Int32"));
+            Program.api.FilesTable.Columns.Add("parentid", Type.GetType("System.String"));
+            Program.api.FilesTable.Columns.Add("index", Type.GetType("System.String"));
+            Program.api.FilesTable.Columns.Add("leve;", Type.GetType("System.String"));
         }
         private void OpenBtn_Click(object sender, EventArgs e)
         {
+            Program.api.FilesTable.Clear();
+            treeView1.Nodes.Clear();
             if (Ofd.ShowDialog() == DialogResult.OK || Ofd.ShowDialog() == DialogResult.Yes)
             {
                 Program.api.ApkPath = Ofd.FileName;
@@ -71,10 +73,22 @@ namespace ApkTool
                     });
                 };
 
+
+
                 RunAsync(() => {
 
                     Dump_Badging(Program.api.ApkPath);
                 });
+
+
+                Program.api.OnAddRootNode = (name) => {
+                    RunInMainthread(() => {
+                        treeView1.Nodes.Add(name);
+
+                    });
+                };
+
+
                 RunAsync(() => {
 
                     List_A(Program.api.ApkPath);
@@ -151,6 +165,22 @@ namespace ApkTool
                 if (node.IsExpanded)
                     node.Collapse();
             }
+            
+            var s = e.Node.Text;
+            var l = s.Length;
+            if (s.Contains(".xml"))
+            {
+                textBox1.Text = "";
+
+               // MessageBox.Show(e.Node.FullPath);
+
+                Program.api.DecodeXml(e.Node.FullPath);
+
+
+                textBox1.Text = Program.api.DecodeXML;
+
+            }
+
         }
 
 

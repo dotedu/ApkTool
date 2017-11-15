@@ -34,11 +34,8 @@ namespace ApkTool
 
         public DataTable FilesTable = new DataTable("ApkFiles");
 
-        private void creattable()
-        {
 
-        }
-
+        public string DecodeXML { get; set; }
 
 
         public static Dictionary<int, string> SdkMap = new Dictionary<int, string> {
@@ -79,12 +76,16 @@ namespace ApkTool
         public Action OnAAptMiss;
         public Action OnUzipMiss;
 
+        public Action<string> OnAddRootNode;
+
         public Action OnReplaySuccess;
 
 
         private string appPath { get; set; } = Path.GetDirectoryName(Application.ExecutablePath);
         private List<string> infos = new List<string>();
         private List<string> lists = new List<string>();
+
+
 
         private string GetApkSize(string apkPath)
         {
@@ -306,7 +307,7 @@ namespace ApkTool
             {
                 using (var fs = new FileStream(destPath, FileMode.Open, FileAccess.Read))
                 {
-                    this.AppIcon = Image.FromStream(fs);
+                    //this.AppIcon = Image.FromStream(fs);
                 }
                 File.Delete(destPath);
             }
@@ -402,25 +403,140 @@ namespace ApkTool
             //解析每个字串
             foreach (var list in lists)
             {
+                string parentid = "-1";
 
                 string[] patharr = list.Split('/');
-                var pl = patharr.Length;
 
-
-                for (int i = 0; i < patharr.Length - 1; i = i + 1)
+                var name = patharr[0];
+                var s1 = string.Format("name='{0}'  AND parentid='{1}'", name, parentid);
+                DataRow[] dr1 = FilesTable.Select(s1);
+                if (dr1.Length == 0)
                 {
-                    var a = patharr[i];
+                    var s2 = string.Format("parentid='{0}'", parentid);
 
-                    DataRow[] drs = FilesTable.Select(string.Format("parentid={0}", i-1));
-                    int index = drs.Length+1;
-                    // Create an array with three elements.
-                    FilesTable.Rows.Add(new object[] { null, patharr[i], i, index, i });
+                    DataRow[] dr2 = FilesTable.Select(s2);
+                    var index = dr2.Length;
+                    FilesTable.Rows.Add(new object[] { null, name, parentid, index.ToString(), "0" });
+                    OnAddRootNode?.Invoke(name);
 
                 }
+                //for (int i = 0; i < patharr.Length; i = i + 1)
+                //{
+                //    var name = patharr[i];
+                //    var s1 = string.Format("name='{0}'  AND parentid='{1}'", name, parentid);
+                //    DataRow[] dr1 = FilesTable.Select(s1);
+
+                //    if (dr1.Length == 0)
+                //    {
+                //        var s2 = string.Format("parentid='{0}'", parentid);
+
+                //        DataRow[] dr2 = FilesTable.Select(s2);
+                //        var index = dr2.Length;
+                //        if (parentid=="-1")
+                //        {
+                //            FilesTable.Rows.Add(new object[] { null, name, parentid, index.ToString(), i.ToString() });
+
+                //        }
+                //        else
+                //        {
+                //            FilesTable.Rows.Add(new object[] { null, name, parentid, parentid+'-'+index.ToString(), i.ToString() });
+                //            parentid = parentid + '-' + index;
+                //        }
+
+                //    }
+                //    else
+                //    {
+                //        parentid = dr1[0][3].ToString();
+                //    }
+
+                //}
             }
+
+
             OnListSuccess?.Invoke();
 
 
         }
+
+
+        public void DecodeXml(string xmlPath)
+        {
+
+            string aaptPath = Path.Combine(appPath, @"aapt.exe");
+            if (!File.Exists(aaptPath))
+            {
+                OnAAptMiss?.Invoke();
+            }
+            StringBuilder sb = new StringBuilder(255);
+            int result = GetShortPathName(aaptPath, sb, 255);
+            if (result != 0)
+                aaptPath = sb.ToString();
+            var startInfo = new ProcessStartInfo("cmd.exe");
+            try
+            {
+                string xmlFile = Path.GetTempFileName();
+                //如此费事做中转，只为处理中文乱码
+                string args = string.Format("/k aapt dump xmltree \"{0}\" \"{1}\" > \"{2}\" &exit", this.ApkPath, xmlPath,xmlFile);
+                startInfo.Arguments = args;
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                this.infos.Clear();
+                using (var process = Process.Start(startInfo))
+                {
+                    process.WaitForExit();
+                }
+                if (File.Exists(xmlFile))
+                {
+                    //解析
+                    using (var sr = new StreamReader(xmlFile, Encoding.UTF8))
+                    {
+
+                        DecodeXML = "";
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            this.infos.Add(line);
+                            DecodeXML = DecodeXML + line + "\r\n";
+                        }
+                        if (this.infos.Count == 0)
+                        {
+                            OnDumpFail?.Invoke();
+                            return;
+                        }
+                        DoParseInfo(); ;
+                    }
+
+                    File.Delete(xmlFile);
+                }
+            }
+            catch
+            {
+                //出了异常，换回命令行解析方式
+
+                startInfo = new ProcessStartInfo(aaptPath);
+                string args = string.Format("dump xmltree \"{0}\"", this.ApkPath);
+                startInfo.Arguments = args;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.CreateNoWindow = true;
+                using (var process = Process.Start(startInfo))
+                {
+                    var sr = process.StandardOutput;
+                    while (!sr.EndOfStream)
+                    {
+                        infos.Add(sr.ReadLine());
+                    }
+                    process.WaitForExit();
+                    //解析
+                    if (this.infos.Count == 0)
+                    {
+                        OnDumpFail?.Invoke();
+                        return;
+                    }
+                    DoParseInfo(sr.CurrentEncoding);
+                }
+            }
+
+        }
+
     }
 }

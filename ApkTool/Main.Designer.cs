@@ -499,6 +499,7 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(527, 442);
             this.textBox1.TabIndex = 0;
             // 
@@ -545,7 +546,7 @@
             this.Controls.Add(this.TopPanel);
             this.MinimumSize = new System.Drawing.Size(720, 540);
             this.Name = "Main";
-            this.Text = "Form1";
+            this.Text = "APK资源解析工具";
             this.Load += new System.EventHandler(this.Main_Load);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();

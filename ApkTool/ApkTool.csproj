@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApkDecoder.cs" />
     <Compile Include="ApkInfo.cs">
       <SubType>Form</SubType>
     </Compile>
