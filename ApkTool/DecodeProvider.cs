@@ -152,7 +152,7 @@ namespace ApkTool
                             OnDumpFail?.Invoke();
                             return;
                         }
-                        DoParseInfo();;
+                        DoParseInfo(); ;
                     }
 
                     File.Delete(dumpFile);
@@ -406,18 +406,21 @@ namespace ApkTool
                 string[] patharr = list.Split('/');
                 var pl = patharr.Length;
 
-                for (int i = 0; i < patharr.Length-1; i = i + 1)
+
+                for (int i = 0; i < patharr.Length - 1; i = i + 1)
                 {
                     var a = patharr[i];
 
+                    DataRow[] drs = FilesTable.Select(string.Format("parentid={0}", i-1));
+                    int index = drs.Length+1;
                     // Create an array with three elements.
-                    FilesTable.Rows.Add(new object[] { null, patharr[i], i-1, "c",i });
-
+                    FilesTable.Rows.Add(new object[] { null, patharr[i], i, index, i });
 
                 }
-        }
+            }
             OnListSuccess?.Invoke();
 
 
+        }
     }
 }
