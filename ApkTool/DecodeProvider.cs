@@ -85,7 +85,7 @@ namespace ApkTool
         public Action OnAddSubNode;
         
         public Action OnReplaySuccess;
-
+        public Action OnExtractSuccess;
 
         private string appPath { get; set; } = Path.GetDirectoryName(Application.ExecutablePath);
         private List<string> infos = new List<string>();
@@ -293,7 +293,8 @@ namespace ApkTool
         {
             if (string.IsNullOrEmpty(iconPath))
                 return;
-            if (Path.GetExtension(iconPath)!="png")
+            var e = Path.GetExtension(iconPath);
+            if (e != ".png")
             {
                 return;
             }
@@ -514,10 +515,10 @@ namespace ApkTool
             OnAddSubNode?.Invoke();
 
         }
-        public void SaveSelect(string selectitem, string savepath)
+        public void SaveSelect(string extractStr)
         {
 
-            if (string.IsNullOrEmpty(selectitem))
+            if (string.IsNullOrEmpty(extractStr))
                 return;
             string unzipPath = Path.Combine(appPath, @"unzip.exe");
             if (!File.Exists(unzipPath))
@@ -525,13 +526,51 @@ namespace ApkTool
                 OnUzipMiss?.Invoke();
                 return;
             }
-            string destPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(savePath));
-            if (File.Exists(destPath))
-            {
-                File.Delete(destPath);
-            }
+            var n=Path.GetFileName(extractStr);
+            var p = Path.GetExtension(extractStr);
+            var o = Path.GetDirectoryName(extractStr);
+
+
             var startInfo = new ProcessStartInfo(unzipPath);
-            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, savePath, Path.GetDirectoryName(Path.GetTempPath()));
+            if (!string.IsNullOrEmpty(Path.GetExtension(extractStr)))
+            {
+                string args = string.Format(" \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, extractStr, SavePath);
+                startInfo.Arguments = args;
+
+            }
+            else
+            {
+                extractStr= extractStr + "\\*.*";
+                string args = string.Format(" \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, extractStr, SavePath);
+                startInfo.Arguments = args;
+            }
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            using (var process = Process.Start(startInfo))
+            {
+                //process.WaitForExit(2000);
+            }
+            OnExtractSuccess?.Invoke();
+
+        }
+        public void SaveIcon(string iconpath)
+        {
+
+            if (string.IsNullOrEmpty(iconpath))
+                return;
+            string unzipPath = Path.Combine(appPath, @"unzip.exe");
+            if (!File.Exists(unzipPath))
+            {
+                OnUzipMiss?.Invoke();
+                return;
+            }
+            var n = Path.GetFileName(iconpath);
+            var p = Path.GetExtension(iconpath);
+            var o = Path.GetDirectoryName(iconpath);
+
+
+            var startInfo = new ProcessStartInfo(unzipPath);
+            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, iconpath, SavePath);
             startInfo.Arguments = args;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
@@ -539,9 +578,18 @@ namespace ApkTool
             {
                 //process.WaitForExit(2000);
             }
-            OnGetImgSuccess?.Invoke();
+            var iconFile = SavePath +'\\'+ PkgName+".png";
+            
+
+            if (File.Exists(SavePath + '\\' + Path.GetFileName(iconpath)))
+            {
+                FileInfo file = new FileInfo(SavePath + '\\' + Path.GetFileName(iconpath));
+                file.MoveTo(iconFile);
+            }
+            OnExtractSuccess?.Invoke();
 
         }
+
         public void DecodeXml(string xmlPath)
         {
             xmlPath = xmlPath.Replace('\\', '/');
@@ -563,7 +611,6 @@ namespace ApkTool
                 string args = string.Format("/k aapt dump xmltree \"{0}\" \"{1}\" > \"{2}\" &exit", this.ApkPath, xmlPath,xmlFile);
                 startInfo.Arguments = args;
                 startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                this.infos.Clear();
                 using (var process = Process.Start(startInfo))
                 {
                     process.WaitForExit();
@@ -581,12 +628,6 @@ namespace ApkTool
                             DecodeXML = DecodeXML + line + "\r\n";
                         }
                         OnDecodeXMLSuccess?.Invoke();
-                        if (this.infos.Count == 0)
-                        {
-                            //OnDumpFail?.Invoke();
-                            return;
-                        }
-                        //DoParseInfo(); ;
                     }
 
                     File.Delete(xmlFile);

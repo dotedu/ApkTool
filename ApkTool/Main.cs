@@ -150,6 +150,7 @@ namespace ApkTool
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            PathText.Text = e.Node.FullPath.Replace('\\', '/'); ;
             e.Node.Expand(); // 展开选中的节点
 
             TreeNodeCollection c = (e.Node.Parent == null)
@@ -172,10 +173,8 @@ namespace ApkTool
         {
             textBox1.Visible = false;
             ImgRes.Visible = false;
-            PathText.Text = e.Node.FullPath.Replace('\\', '/'); ;
-            var s = e.Node.Text;
-            var l = s.Length;
-            if (s.Contains(".xml"))
+            var FileEx = Path.GetExtension(e.Node.FullPath);
+            if (FileEx == ".xml")
             {
                 textBox1.Text = "";
 
@@ -195,7 +194,7 @@ namespace ApkTool
                 };
 
             }
-            else if (s.Contains(".png") || s.Contains(".jpg"))
+            else if (FileEx == ".png" || FileEx == ".jpg" || FileEx == ".gif")
             {
                 RunAsync(() => {
 
@@ -208,13 +207,8 @@ namespace ApkTool
                         ImgRes.Visible = true;
                     });
                 };
-
-                
-
-
             }
-
-            if (!s.Contains("."))
+            else if (string.IsNullOrEmpty(FileEx))
             {
                 RunAsync(() => {
 
@@ -258,25 +252,46 @@ namespace ApkTool
 
         private void SaveItemMenu_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Program.api.SavePath))
+            if (!string.IsNullOrEmpty(Program.api.SavePath))
             {
-                DialogResult result = Fbd.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    string folderName = Fbd.SelectedPath;
-                    if (folderName != "")
-                    {
-                        Program.api.SavePath = folderName;
-                    }
-                }
+                //设置此次默认目录为上一次选中目录  
+                Fbd.SelectedPath = Program.api.SavePath;
             }
 
-            RunAsync(() => {
+            if (Fbd.ShowDialog() == DialogResult.OK)
+            {
+                //记录选中的目录  
+                Program.api.SavePath = Fbd.SelectedPath;
+                RunAsync(() => {
+                    Program.api.SaveSelect(selectedpath);
 
-                Program.api.SaveSelect(selectedpath);
-            });
+                });
+            }
 
 
+            Program.api.OnExtractSuccess = () => {
+                RunInMainthread(() => {
+                    MessageBox.Show("已导出！");
+                });
+            };
+
+
+        }
+
+        private void imgIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && Program.api.AppIcon != null)//判断你点的是不是右键
+            {
+                if (Fbd.ShowDialog() == DialogResult.OK)
+                {
+                    //记录选中的目录  
+                    Program.api.SavePath = Fbd.SelectedPath;
+                    RunAsync(() => {
+                        Program.api.SaveIcon(Program.api.IconPath);
+
+                    });
+                }
+            }
         }
     }
 }

@@ -105,7 +105,7 @@
             this.TopPanel.Location = new System.Drawing.Point(0, 0);
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.TopPanel.Size = new System.Drawing.Size(704, 27);
+            this.TopPanel.Size = new System.Drawing.Size(1034, 27);
             this.TopPanel.TabIndex = 2;
             // 
             // ToolBar
@@ -122,7 +122,7 @@
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.ToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ToolBar.Size = new System.Drawing.Size(694, 27);
+            this.ToolBar.Size = new System.Drawing.Size(1024, 27);
             this.ToolBar.TabIndex = 0;
             this.ToolBar.Text = "toolStrip1";
             // 
@@ -172,7 +172,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 27);
             this.panel2.MinimumSize = new System.Drawing.Size(80, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(704, 474);
+            this.panel2.Size = new System.Drawing.Size(1034, 654);
             this.panel2.TabIndex = 4;
             // 
             // tabControl1
@@ -185,7 +185,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(3, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(704, 474);
+            this.tabControl1.Size = new System.Drawing.Size(1034, 654);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -222,7 +222,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(696, 448);
+            this.tabPage1.Size = new System.Drawing.Size(1026, 628);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "APK信息";
             // 
@@ -231,35 +231,35 @@
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label13.Location = new System.Drawing.Point(20, 366);
+            this.label13.Location = new System.Drawing.Point(20, 535);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(670, 2);
+            this.label13.Size = new System.Drawing.Size(1000, 2);
             this.label13.TabIndex = 48;
             // 
             // txtApkSize
             // 
             this.txtApkSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtApkSize.Location = new System.Drawing.Point(89, 403);
+            this.txtApkSize.Location = new System.Drawing.Point(89, 572);
             this.txtApkSize.Name = "txtApkSize";
             this.txtApkSize.ReadOnly = true;
-            this.txtApkSize.Size = new System.Drawing.Size(601, 21);
+            this.txtApkSize.Size = new System.Drawing.Size(931, 21);
             this.txtApkSize.TabIndex = 44;
             // 
             // txtApkPath
             // 
             this.txtApkPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtApkPath.Location = new System.Drawing.Point(89, 378);
+            this.txtApkPath.Location = new System.Drawing.Point(89, 547);
             this.txtApkPath.Name = "txtApkPath";
             this.txtApkPath.ReadOnly = true;
-            this.txtApkPath.Size = new System.Drawing.Size(601, 21);
+            this.txtApkPath.Size = new System.Drawing.Size(931, 21);
             this.txtApkPath.TabIndex = 42;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 406);
+            this.label11.Location = new System.Drawing.Point(18, 575);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(41, 12);
             this.label11.TabIndex = 43;
@@ -268,7 +268,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(18, 381);
+            this.label12.Location = new System.Drawing.Point(18, 550);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(65, 12);
             this.label12.TabIndex = 41;
@@ -281,7 +281,7 @@
             this.txtMinVersion.Location = new System.Drawing.Point(125, 144);
             this.txtMinVersion.Name = "txtMinVersion";
             this.txtMinVersion.ReadOnly = true;
-            this.txtMinVersion.Size = new System.Drawing.Size(565, 21);
+            this.txtMinVersion.Size = new System.Drawing.Size(895, 21);
             this.txtMinVersion.TabIndex = 32;
             // 
             // txtScreenSolution
@@ -291,7 +291,7 @@
             this.txtScreenSolution.Location = new System.Drawing.Point(89, 194);
             this.txtScreenSolution.Name = "txtScreenSolution";
             this.txtScreenSolution.ReadOnly = true;
-            this.txtScreenSolution.Size = new System.Drawing.Size(601, 21);
+            this.txtScreenSolution.Size = new System.Drawing.Size(931, 21);
             this.txtScreenSolution.TabIndex = 35;
             // 
             // txtScreenSize
@@ -301,19 +301,19 @@
             this.txtScreenSize.Location = new System.Drawing.Point(89, 169);
             this.txtScreenSize.Name = "txtScreenSize";
             this.txtScreenSize.ReadOnly = true;
-            this.txtScreenSize.Size = new System.Drawing.Size(601, 21);
+            this.txtScreenSize.Size = new System.Drawing.Size(931, 21);
             this.txtScreenSize.TabIndex = 34;
             // 
             // txtFeature
             // 
             this.txtFeature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFeature.Location = new System.Drawing.Point(89, 291);
+            this.txtFeature.Location = new System.Drawing.Point(89, 380);
             this.txtFeature.Multiline = true;
             this.txtFeature.Name = "txtFeature";
             this.txtFeature.ReadOnly = true;
             this.txtFeature.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtFeature.Size = new System.Drawing.Size(601, 68);
+            this.txtFeature.Size = new System.Drawing.Size(931, 150);
             this.txtFeature.TabIndex = 39;
             // 
             // txtPermission
@@ -325,7 +325,7 @@
             this.txtPermission.Name = "txtPermission";
             this.txtPermission.ReadOnly = true;
             this.txtPermission.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPermission.Size = new System.Drawing.Size(601, 68);
+            this.txtPermission.Size = new System.Drawing.Size(931, 150);
             this.txtPermission.TabIndex = 38;
             // 
             // txtMinSdk
@@ -343,7 +343,7 @@
             this.txtIconPath.Location = new System.Drawing.Point(89, 119);
             this.txtIconPath.Name = "txtIconPath";
             this.txtIconPath.ReadOnly = true;
-            this.txtIconPath.Size = new System.Drawing.Size(601, 21);
+            this.txtIconPath.Size = new System.Drawing.Size(931, 21);
             this.txtIconPath.TabIndex = 28;
             // 
             // txtPackage
@@ -353,7 +353,7 @@
             this.txtPackage.Location = new System.Drawing.Point(89, 94);
             this.txtPackage.Name = "txtPackage";
             this.txtPackage.ReadOnly = true;
-            this.txtPackage.Size = new System.Drawing.Size(601, 21);
+            this.txtPackage.Size = new System.Drawing.Size(829, 21);
             this.txtPackage.TabIndex = 27;
             // 
             // txtVersionCode
@@ -363,7 +363,7 @@
             this.txtVersionCode.Location = new System.Drawing.Point(89, 69);
             this.txtVersionCode.Name = "txtVersionCode";
             this.txtVersionCode.ReadOnly = true;
-            this.txtVersionCode.Size = new System.Drawing.Size(601, 21);
+            this.txtVersionCode.Size = new System.Drawing.Size(829, 21);
             this.txtVersionCode.TabIndex = 24;
             // 
             // txtVersion
@@ -373,7 +373,7 @@
             this.txtVersion.Location = new System.Drawing.Point(89, 44);
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.ReadOnly = true;
-            this.txtVersion.Size = new System.Drawing.Size(547, 21);
+            this.txtVersion.Size = new System.Drawing.Size(829, 21);
             this.txtVersion.TabIndex = 22;
             // 
             // txtApplication
@@ -383,13 +383,13 @@
             this.txtApplication.Location = new System.Drawing.Point(89, 19);
             this.txtApplication.Name = "txtApplication";
             this.txtApplication.ReadOnly = true;
-            this.txtApplication.Size = new System.Drawing.Size(547, 21);
+            this.txtApplication.Size = new System.Drawing.Size(829, 21);
             this.txtApplication.TabIndex = 19;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 294);
+            this.label10.Location = new System.Drawing.Point(18, 383);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 12);
             this.label10.TabIndex = 40;
@@ -479,13 +479,15 @@
             // imgIcon
             // 
             this.imgIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgIcon.Location = new System.Drawing.Point(642, 16);
+            this.imgIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imgIcon.Location = new System.Drawing.Point(922, 18);
             this.imgIcon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.imgIcon.Name = "imgIcon";
-            this.imgIcon.Size = new System.Drawing.Size(48, 48);
+            this.imgIcon.Size = new System.Drawing.Size(96, 96);
             this.imgIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgIcon.TabIndex = 23;
             this.imgIcon.TabStop = false;
+            this.imgIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.imgIcon_MouseClick);
             // 
             // tabPage2
             // 
@@ -495,7 +497,7 @@
             this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(696, 448);
+            this.tabPage2.Size = new System.Drawing.Size(1026, 628);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "数据解析";
             // 
@@ -504,10 +506,10 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(163, 0);
+            this.panel1.Location = new System.Drawing.Point(183, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(533, 448);
+            this.panel1.Size = new System.Drawing.Size(843, 628);
             this.panel1.TabIndex = 8;
             // 
             // panel4
@@ -517,7 +519,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(533, 427);
+            this.panel4.Size = new System.Drawing.Size(843, 607);
             this.panel4.TabIndex = 7;
             // 
             // ImgRes
@@ -525,7 +527,7 @@
             this.ImgRes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ImgRes.Location = new System.Drawing.Point(0, 0);
             this.ImgRes.Name = "ImgRes";
-            this.ImgRes.Size = new System.Drawing.Size(533, 427);
+            this.ImgRes.Size = new System.Drawing.Size(843, 607);
             this.ImgRes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.ImgRes.TabIndex = 1;
             this.ImgRes.TabStop = false;
@@ -538,7 +540,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(533, 427);
+            this.textBox1.Size = new System.Drawing.Size(843, 607);
             this.textBox1.TabIndex = 0;
             this.textBox1.Visible = false;
             // 
@@ -546,25 +548,26 @@
             // 
             this.panel5.Controls.Add(this.PathText);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 427);
+            this.panel5.Location = new System.Drawing.Point(0, 607);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(533, 21);
+            this.panel5.Size = new System.Drawing.Size(843, 21);
             this.panel5.TabIndex = 8;
             // 
             // PathText
             // 
+            this.PathText.BackColor = System.Drawing.SystemColors.Control;
             this.PathText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PathText.Location = new System.Drawing.Point(0, 0);
             this.PathText.Name = "PathText";
-            this.PathText.Size = new System.Drawing.Size(533, 21);
+            this.PathText.Size = new System.Drawing.Size(843, 21);
             this.PathText.TabIndex = 0;
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(160, 0);
+            this.splitter1.Location = new System.Drawing.Point(180, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 448);
+            this.splitter1.Size = new System.Drawing.Size(3, 628);
             this.splitter1.TabIndex = 6;
             this.splitter1.TabStop = false;
             // 
@@ -574,9 +577,9 @@
             this.panel3.Controls.Add(this.treeView1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.MinimumSize = new System.Drawing.Size(100, 4);
+            this.panel3.MinimumSize = new System.Drawing.Size(160, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(160, 448);
+            this.panel3.Size = new System.Drawing.Size(180, 628);
             this.panel3.TabIndex = 5;
             // 
             // treeView1
@@ -584,7 +587,7 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(156, 444);
+            this.treeView1.Size = new System.Drawing.Size(176, 624);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -597,7 +600,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(696, 448);
+            this.tabPage3.Size = new System.Drawing.Size(1026, 628);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Color资源";
             // 
@@ -608,7 +611,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(695, 418);
+            this.richTextBox1.Size = new System.Drawing.Size(1025, 598);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -623,12 +626,12 @@
             this.ListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SaveItemMenu});
             this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(153, 48);
+            this.ListMenu.Size = new System.Drawing.Size(101, 26);
             // 
             // SaveItemMenu
             // 
             this.SaveItemMenu.Name = "SaveItemMenu";
-            this.SaveItemMenu.Size = new System.Drawing.Size(152, 22);
+            this.SaveItemMenu.Size = new System.Drawing.Size(100, 22);
             this.SaveItemMenu.Text = "导出";
             this.SaveItemMenu.Click += new System.EventHandler(this.SaveItemMenu_Click);
             // 
@@ -636,11 +639,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 501);
+            this.ClientSize = new System.Drawing.Size(1034, 681);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.TopPanel);
-            this.MinimumSize = new System.Drawing.Size(720, 540);
+            this.MinimumSize = new System.Drawing.Size(1050, 720);
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "APK资源解析工具";
             this.Load += new System.EventHandler(this.Main_Load);
             this.TopPanel.ResumeLayout(false);
