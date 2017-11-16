@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
@@ -66,12 +67,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.imgIcon = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.ImgRes = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.PathText = new System.Windows.Forms.TextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Ofd = new System.Windows.Forms.OpenFileDialog();
+            this.ListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.SaveItemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -79,8 +89,13 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).BeginInit();
+            this.panel5.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.ListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -119,7 +134,7 @@
             this.OpenBtn.Margin = new System.Windows.Forms.Padding(0, 1, 2, 2);
             this.OpenBtn.Name = "OpenBtn";
             this.OpenBtn.Size = new System.Drawing.Size(23, 24);
-            this.OpenBtn.Text = "打开文件";
+            this.OpenBtn.ToolTipText = "打开文件";
             this.OpenBtn.Click += new System.EventHandler(this.OpenBtn_Click);
             // 
             // toolStripSeparator1
@@ -164,6 +179,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -474,24 +490,46 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.panel4);
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.splitter1);
             this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(696, 448);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "解析数据";
+            this.tabPage2.Text = "数据解析";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panel5);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(163, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(533, 448);
+            this.panel1.TabIndex = 8;
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.ImgRes);
             this.panel4.Controls.Add(this.textBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(166, 3);
+            this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(527, 442);
+            this.panel4.Size = new System.Drawing.Size(533, 427);
             this.panel4.TabIndex = 7;
+            // 
+            // ImgRes
+            // 
+            this.ImgRes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ImgRes.Location = new System.Drawing.Point(0, 0);
+            this.ImgRes.Name = "ImgRes";
+            this.ImgRes.Size = new System.Drawing.Size(533, 427);
+            this.ImgRes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.ImgRes.TabIndex = 1;
+            this.ImgRes.TabStop = false;
+            this.ImgRes.Visible = false;
             // 
             // textBox1
             // 
@@ -500,14 +538,33 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(527, 442);
+            this.textBox1.Size = new System.Drawing.Size(533, 427);
             this.textBox1.TabIndex = 0;
+            this.textBox1.Visible = false;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.PathText);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 427);
+            this.panel5.Margin = new System.Windows.Forms.Padding(0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(533, 21);
+            this.panel5.TabIndex = 8;
+            // 
+            // PathText
+            // 
+            this.PathText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PathText.Location = new System.Drawing.Point(0, 0);
+            this.PathText.Name = "PathText";
+            this.PathText.Size = new System.Drawing.Size(533, 21);
+            this.PathText.TabIndex = 0;
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(163, 3);
+            this.splitter1.Location = new System.Drawing.Point(160, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 442);
+            this.splitter1.Size = new System.Drawing.Size(3, 448);
             this.splitter1.TabIndex = 6;
             this.splitter1.TabStop = false;
             // 
@@ -516,10 +573,10 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel3.Controls.Add(this.treeView1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.MinimumSize = new System.Drawing.Size(100, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(160, 442);
+            this.panel3.Size = new System.Drawing.Size(160, 448);
             this.panel3.TabIndex = 5;
             // 
             // treeView1
@@ -527,15 +584,53 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(156, 438);
+            this.treeView1.Size = new System.Drawing.Size(156, 444);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
+            this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.richTextBox1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(696, 448);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Color资源";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(695, 418);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // Ofd
             // 
             this.Ofd.FileName = "打开文件";
             this.Ofd.Filter = "Apk文件(*.apk)|*.apk";
             this.Ofd.RestoreDirectory = true;
+            // 
+            // ListMenu
+            // 
+            this.ListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SaveItemMenu});
+            this.ListMenu.Name = "ListMenu";
+            this.ListMenu.Size = new System.Drawing.Size(153, 48);
+            // 
+            // SaveItemMenu
+            // 
+            this.SaveItemMenu.Name = "SaveItemMenu";
+            this.SaveItemMenu.Size = new System.Drawing.Size(152, 22);
+            this.SaveItemMenu.Text = "导出";
+            this.SaveItemMenu.Click += new System.EventHandler(this.SaveItemMenu_Click);
             // 
             // Main
             // 
@@ -558,9 +653,15 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel3.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.ListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -609,6 +710,15 @@
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.PictureBox ImgRes;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ContextMenuStrip ListMenu;
+        private System.Windows.Forms.ToolStripMenuItem SaveItemMenu;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TextBox PathText;
+        private System.Windows.Forms.FolderBrowserDialog Fbd;
     }
 }
 

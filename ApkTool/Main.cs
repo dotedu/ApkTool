@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -12,23 +13,17 @@ namespace ApkTool
         {
             InitializeComponent();
         }
+        public static Version ApplicationVersion = new Version(Application.ProductVersion);
+        string AppVersion = ApplicationVersion.ToString();
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Program.api.FilesTable.Columns.Add("id", Type.GetType("System.Int32"));
-            Program.api.FilesTable.Columns[0].AutoIncrement = true;
-            Program.api.FilesTable.Columns[0].AutoIncrementSeed = 1;
-            Program.api.FilesTable.Columns[0].AutoIncrementStep = 1;
-            Program.api.FilesTable.Columns.Add("name", Type.GetType("System.String"));
-            Program.api.FilesTable.Columns.Add("parentid", Type.GetType("System.String"));
-            Program.api.FilesTable.Columns.Add("index", Type.GetType("System.String"));
-            Program.api.FilesTable.Columns.Add("leve;", Type.GetType("System.String"));
+            this.Text = "APK 辅助解析工具 - " + AppVersion;
         }
         private void OpenBtn_Click(object sender, EventArgs e)
         {
-            Program.api.FilesTable.Clear();
             treeView1.Nodes.Clear();
-            if (Ofd.ShowDialog() == DialogResult.OK || Ofd.ShowDialog() == DialogResult.Yes)
+            if (Ofd.ShowDialog() == DialogResult.OK)
             {
                 Program.api.ApkPath = Ofd.FileName;
 
@@ -81,9 +76,12 @@ namespace ApkTool
                 });
 
 
-                Program.api.OnAddRootNode = (name) => {
+                Program.api.OnAddRootNode = () => {
                     RunInMainthread(() => {
-                        treeView1.Nodes.Add(name);
+                        foreach (var item in Program.api.rootnodes)
+                        {
+                            treeView1.Nodes.Add(item);
+                        }
 
                     });
                 };
@@ -165,24 +163,120 @@ namespace ApkTool
                 if (node.IsExpanded)
                     node.Collapse();
             }
-            
+
+
+
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            textBox1.Visible = false;
+            ImgRes.Visible = false;
+            PathText.Text = e.Node.FullPath.Replace('\\', '/'); ;
             var s = e.Node.Text;
             var l = s.Length;
             if (s.Contains(".xml"))
             {
                 textBox1.Text = "";
 
-               // MessageBox.Show(e.Node.FullPath);
+                // MessageBox.Show(e.Node.FullPath);
 
-                Program.api.DecodeXml(e.Node.FullPath);
+                RunAsync(() => {
+
+                    Program.api.DecodeXml(e.Node.FullPath);
+                });
 
 
-                textBox1.Text = Program.api.DecodeXML;
+                Program.api.OnDecodeXMLSuccess = () => {
+                    RunInMainthread(() => {
+                        textBox1.Text = Program.api.DecodeXML;
+                        textBox1.Visible = true;
+                    });
+                };
 
+            }
+            else if (s.Contains(".png") || s.Contains(".jpg"))
+            {
+                RunAsync(() => {
+
+                    Program.api.GetImage(e.Node.FullPath);
+                });
+
+                Program.api.OnGetImgSuccess = () => {
+                    RunInMainthread(() => {
+                        ImgRes.Image = Program.api.ImageRes;
+                        ImgRes.Visible = true;
+                    });
+                };
+
+                
+
+
+            }
+
+            if (!s.Contains("."))
+            {
+                RunAsync(() => {
+
+                    Program.api.SearchCNode(e.Node.FullPath);
+                });
+
+                Program.api.OnAddSubNode = () => {
+                    RunInMainthread(() => {
+                        foreach (var item in Program.api.subnodes)
+                        {
+                            e.Node.Nodes.Add(item);
+                        }
+
+                    });
+                };
             }
 
         }
 
+        private string selectedpath;
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)//判断你点的是不是右键
+            {
+                Point ClickPoint = new Point(e.X, e.Y);
+                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+                if (CurrentNode != null)//判断你点的是不是一个节点
+                {
+                    CurrentNode.ContextMenuStrip = ListMenu;
+                    //switch (CurrentNode.Name)//根据不同节点显示不同的右键菜单，当然你可以让它显示一样的菜单
+                    //{
+                    //    case "errorUrl":
+                    //        CurrentNode.ContextMenuStrip = ListMenu;
+                    //        break;
+                    //}
+                    treeView1.SelectedNode = CurrentNode;//选中这个节点
+                    selectedpath = CurrentNode.FullPath;
+                }
+            }
+        }
 
+        private void SaveItemMenu_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(Program.api.SavePath))
+            {
+                DialogResult result = Fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string folderName = Fbd.SelectedPath;
+                    if (folderName != "")
+                    {
+                        Program.api.SavePath = folderName;
+                    }
+                }
+            }
+
+            RunAsync(() => {
+
+                Program.api.SaveSelect(selectedpath);
+            });
+
+
+        }
     }
 }

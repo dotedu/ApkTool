@@ -26,13 +26,16 @@ namespace ApkTool
         public string Permissions { get; set; }
         public string Features { get; set; }
 
+        public string SavePath { get; set; }
+
         public Image AppIcon;
+
+        public Image ImageRes;
+
         public string ApkSize
         {
             get { return GetApkSize(this.ApkPath); }
         }
-
-        public DataTable FilesTable = new DataTable("ApkFiles");
 
 
         public string DecodeXML { get; set; }
@@ -75,15 +78,22 @@ namespace ApkTool
 
         public Action OnAAptMiss;
         public Action OnUzipMiss;
+        public Action OnDecodeXMLSuccess;
+        public Action OnGetImgSuccess;
 
-        public Action<string> OnAddRootNode;
-
+        public Action OnAddRootNode;
+        public Action OnAddSubNode;
+        
         public Action OnReplaySuccess;
 
 
         private string appPath { get; set; } = Path.GetDirectoryName(Application.ExecutablePath);
         private List<string> infos = new List<string>();
         private List<string> lists = new List<string>();
+
+
+        public List<string> rootnodes = new List<string>();   
+        public List<string> subnodes = new List<string>();
 
 
 
@@ -119,6 +129,7 @@ namespace ApkTool
             if (!File.Exists(aaptPath))
             {
                 OnAAptMiss?.Invoke();
+                return;
             }
             StringBuilder sb = new StringBuilder(255);
             int result = GetShortPathName(aaptPath, sb, 255);
@@ -282,6 +293,10 @@ namespace ApkTool
         {
             if (string.IsNullOrEmpty(iconPath))
                 return;
+            if (Path.GetExtension(iconPath)!="png")
+            {
+                return;
+            }
             string unzipPath = Path.Combine(appPath, @"tools\unzip.exe");
             if (!File.Exists(unzipPath))
                 unzipPath = Path.Combine(appPath, @"unzip.exe");
@@ -307,12 +322,49 @@ namespace ApkTool
             {
                 using (var fs = new FileStream(destPath, FileMode.Open, FileAccess.Read))
                 {
-                    //this.AppIcon = Image.FromStream(fs);
+                    this.AppIcon = Image.FromStream(fs);
                 }
                 File.Delete(destPath);
             }
         }
 
+
+
+        public void GetImage(string imagePath)
+        {
+            if (string.IsNullOrEmpty(imagePath))
+                return;
+            string unzipPath = Path.Combine(appPath, @"unzip.exe");
+            if (!File.Exists(unzipPath))
+            {
+                OnUzipMiss?.Invoke();
+                    return;
+                }
+            string destPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(imagePath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            var startInfo = new ProcessStartInfo(unzipPath);
+            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, imagePath, Path.GetDirectoryName(Path.GetTempPath()));
+            startInfo.Arguments = args;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            using (var process = Process.Start(startInfo))
+            {
+                process.WaitForExit(2000);
+            }
+
+            if (File.Exists(destPath))
+            {
+                using (var fs = new FileStream(destPath, FileMode.Open, FileAccess.Read))
+                {
+                    ImageRes = Image.FromStream(fs);
+                    OnGetImgSuccess?.Invoke();
+                }
+                File.Delete(destPath);
+            }
+        }
 
         public void ListContents(string apkPath)
         {
@@ -403,55 +455,16 @@ namespace ApkTool
             //解析每个字串
             foreach (var list in lists)
             {
-                string parentid = "-1";
 
                 string[] patharr = list.Split('/');
 
                 var name = patharr[0];
-                var s1 = string.Format("name='{0}'  AND parentid='{1}'", name, parentid);
-                DataRow[] dr1 = FilesTable.Select(s1);
-                if (dr1.Length == 0)
+                if (!rootnodes.Contains(name))
                 {
-                    var s2 = string.Format("parentid='{0}'", parentid);
-
-                    DataRow[] dr2 = FilesTable.Select(s2);
-                    var index = dr2.Length;
-                    FilesTable.Rows.Add(new object[] { null, name, parentid, index.ToString(), "0" });
-                    OnAddRootNode?.Invoke(name);
-
+                    rootnodes.Add(name);
                 }
-                //for (int i = 0; i < patharr.Length; i = i + 1)
-                //{
-                //    var name = patharr[i];
-                //    var s1 = string.Format("name='{0}'  AND parentid='{1}'", name, parentid);
-                //    DataRow[] dr1 = FilesTable.Select(s1);
-
-                //    if (dr1.Length == 0)
-                //    {
-                //        var s2 = string.Format("parentid='{0}'", parentid);
-
-                //        DataRow[] dr2 = FilesTable.Select(s2);
-                //        var index = dr2.Length;
-                //        if (parentid=="-1")
-                //        {
-                //            FilesTable.Rows.Add(new object[] { null, name, parentid, index.ToString(), i.ToString() });
-
-                //        }
-                //        else
-                //        {
-                //            FilesTable.Rows.Add(new object[] { null, name, parentid, parentid+'-'+index.ToString(), i.ToString() });
-                //            parentid = parentid + '-' + index;
-                //        }
-
-                //    }
-                //    else
-                //    {
-                //        parentid = dr1[0][3].ToString();
-                //    }
-
-                //}
             }
-
+            OnAddRootNode?.Invoke();
 
             OnListSuccess?.Invoke();
 
@@ -459,8 +472,79 @@ namespace ApkTool
         }
 
 
+        public void SearchCNode(string path)
+        {
+            subnodes.Clear();
+            path = path.Replace('\\', '/');
+            var t = true;
+            foreach (var list in lists)
+            {
+                string[] patharr = path.Split('/');
+                string[] listarr = list.Split('/');
+                
+                if (patharr.Length < listarr.Length)
+                {
+                    for (int i = 0; i < patharr.Length; i++)
+                    {
+                        if (listarr[i] != patharr[i])
+                        {
+                            t=false;
+                            break;
+                        }
+                        else
+                        {
+                        t = true;
+
+                        }
+                    }
+                    if (t)
+                    {
+                        var name = listarr[patharr.Length];
+                        if (!subnodes.Contains(name))
+                        {
+                            subnodes.Add(name);
+                        }
+
+                    }
+
+
+
+                }
+            }
+            OnAddSubNode?.Invoke();
+
+        }
+        public void SaveSelect(string selectitem, string savepath)
+        {
+
+            if (string.IsNullOrEmpty(selectitem))
+                return;
+            string unzipPath = Path.Combine(appPath, @"unzip.exe");
+            if (!File.Exists(unzipPath))
+            {
+                OnUzipMiss?.Invoke();
+                return;
+            }
+            string destPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(savePath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            var startInfo = new ProcessStartInfo(unzipPath);
+            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, savePath, Path.GetDirectoryName(Path.GetTempPath()));
+            startInfo.Arguments = args;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            using (var process = Process.Start(startInfo))
+            {
+                //process.WaitForExit(2000);
+            }
+            OnGetImgSuccess?.Invoke();
+
+        }
         public void DecodeXml(string xmlPath)
         {
+            xmlPath = xmlPath.Replace('\\', '/');
 
             string aaptPath = Path.Combine(appPath, @"aapt.exe");
             if (!File.Exists(aaptPath))
@@ -494,15 +578,15 @@ namespace ApkTool
                         string line;
                         while ((line = sr.ReadLine()) != null)
                         {
-                            this.infos.Add(line);
                             DecodeXML = DecodeXML + line + "\r\n";
                         }
+                        OnDecodeXMLSuccess?.Invoke();
                         if (this.infos.Count == 0)
                         {
-                            OnDumpFail?.Invoke();
+                            //OnDumpFail?.Invoke();
                             return;
                         }
-                        DoParseInfo(); ;
+                        //DoParseInfo(); ;
                     }
 
                     File.Delete(xmlFile);
@@ -523,16 +607,17 @@ namespace ApkTool
                     var sr = process.StandardOutput;
                     while (!sr.EndOfStream)
                     {
-                        infos.Add(sr.ReadLine());
+                        //infos.Add(sr.ReadLine());
                     }
                     process.WaitForExit();
                     //解析
+                    OnDecodeXMLSuccess?.Invoke();
                     if (this.infos.Count == 0)
                     {
-                        OnDumpFail?.Invoke();
+                        //OnDumpFail?.Invoke();
                         return;
                     }
-                    DoParseInfo(sr.CurrentEncoding);
+                   // DoParseInfo(sr.CurrentEncoding);
                 }
             }
 
