@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -28,6 +29,7 @@ namespace ApkTool
 
         public string SavePath { get; set; }
 
+
         public Image AppIcon;
 
         public Image ImageRes;
@@ -38,8 +40,11 @@ namespace ApkTool
         }
 
 
-        public string DecodeXML { get; set; }
-
+        public string XmlTreeStr { get; set; }
+        public string XmlStringsStr { get; set; }
+        public string XmlSourcecodeStr { get; set; }
+        public string CovertXmlStr { get; set; }
+        
 
         public static Dictionary<int, string> SdkMap = new Dictionary<int, string> {
             {1, "Android 1.0 / BASE"},
@@ -78,7 +83,15 @@ namespace ApkTool
 
         public Action OnAAptMiss;
         public Action OnUzipMiss;
-        public Action OnDecodeXMLSuccess;
+        public Action OnGetXMLTreeFail;
+        public Action OnGetXMLTreeSuccess;
+
+        public Action OnGetXMLStringsFail;
+        public Action OnGetXMLStringsSuccess;
+
+        public Action OnGetXMLSourceCodeSuccess;
+
+        
         public Action OnGetImgSuccess;
 
         public Action OnAddRootNode;
@@ -86,7 +99,13 @@ namespace ApkTool
         
         public Action OnReplaySuccess;
         public Action OnExtractSuccess;
+        public Action OnGetSourcecodeSuccess;
+        public Action OnExportResSuccess;
 
+        public Action OnGetResBegin;
+
+        public Action OnGetResSuccess;
+        
         private string appPath { get; set; } = Path.GetDirectoryName(Application.ExecutablePath);
         private List<string> infos = new List<string>();
         private List<string> lists = new List<string>();
@@ -95,6 +114,7 @@ namespace ApkTool
         public List<string> rootnodes = new List<string>();   
         public List<string> subnodes = new List<string>();
 
+        public List<ColorList> colorList = new List<ColorList>();
 
 
         private string GetApkSize(string apkPath)
@@ -452,7 +472,7 @@ namespace ApkTool
 
         private void DoParseList(Encoding currentEncoding = null)
         {
-
+            rootnodes.Clear();
             //解析每个字串
             foreach (var list in lists)
             {
@@ -590,9 +610,17 @@ namespace ApkTool
 
         }
 
-        public void DecodeXml(string xmlPath)
+        public void GetXMLTree(string xmlPath)
         {
+            XmlTreeStr = "";
             xmlPath = xmlPath.Replace('\\', '/');
+            
+            if (xmlPath.Substring(0,6)== "assets")
+            {
+                XmlTreeStr = "该文件无法反编译，请导出后查看";
+                OnGetXMLTreeFail?.Invoke();
+                return;
+            }
 
             string aaptPath = Path.Combine(appPath, @"aapt.exe");
             if (!File.Exists(aaptPath))
@@ -621,13 +649,17 @@ namespace ApkTool
                     using (var sr = new StreamReader(xmlFile, Encoding.UTF8))
                     {
 
-                        DecodeXML = "";
+                        XmlTreeStr = "";
                         string line;
                         while ((line = sr.ReadLine()) != null)
                         {
-                            DecodeXML = DecodeXML + line + "\r\n";
+
+                            line = Regex.Replace(line, @"[(（][^（）()]*[)）]", "");
+
+
+                            XmlTreeStr = XmlTreeStr + line + "\r\n";
                         }
-                        OnDecodeXMLSuccess?.Invoke();
+                        OnGetXMLTreeSuccess?.Invoke();
                     }
 
                     File.Delete(xmlFile);
@@ -652,7 +684,7 @@ namespace ApkTool
                     }
                     process.WaitForExit();
                     //解析
-                    OnDecodeXMLSuccess?.Invoke();
+                    OnGetXMLTreeSuccess?.Invoke();
                     if (this.infos.Count == 0)
                     {
                         //OnDumpFail?.Invoke();
@@ -664,5 +696,275 @@ namespace ApkTool
 
         }
 
+        public void GetXMLStrings(string xmlPath)
+        {
+            XmlStringsStr = "";
+            xmlPath = xmlPath.Replace('\\', '/');
+
+            if (xmlPath.Substring(0, 6) == "assets")
+            {
+                XmlStringsStr = "该文件无法反编译，请导出后查看";
+                OnGetXMLStringsFail?.Invoke();
+                return;
+            }
+
+            string aaptPath = Path.Combine(appPath, @"aapt.exe");
+            if (!File.Exists(aaptPath))
+            {
+                OnAAptMiss?.Invoke();
+            }
+            StringBuilder sb = new StringBuilder(255);
+            int result = GetShortPathName(aaptPath, sb, 255);
+            if (result != 0)
+                aaptPath = sb.ToString();
+            var startInfo = new ProcessStartInfo("cmd.exe");
+            try
+            {
+                string xmlFile = Path.GetTempFileName();
+                //如此费事做中转，只为处理中文乱码
+                string args = string.Format("/k aapt dump xmlstrings \"{0}\" \"{1}\" > \"{2}\" &exit", this.ApkPath, xmlPath, xmlFile);
+                startInfo.Arguments = args;
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                using (var process = Process.Start(startInfo))
+                {
+                    process.WaitForExit();
+                }
+                if (File.Exists(xmlFile))
+                {
+                    //解析
+                    using (var sr = new StreamReader(xmlFile, Encoding.UTF8))
+                    {
+
+                        XmlTreeStr = "";
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+
+                            //line = Regex.Replace(line, @"[(（][^（）()]*[)）]", "");
+
+
+                            XmlStringsStr = XmlStringsStr + line + "\r\n";
+                        }
+                        OnGetXMLStringsSuccess?.Invoke();
+                    }
+
+                    File.Delete(xmlFile);
+                }
+            }
+            catch
+            {
+                //出了异常，换回命令行解析方式
+
+                startInfo = new ProcessStartInfo(aaptPath);
+                string args = string.Format("dump xmlstrings \"{0}\"", this.ApkPath);
+                startInfo.Arguments = args;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.CreateNoWindow = true;
+                using (var process = Process.Start(startInfo))
+                {
+                    var sr = process.StandardOutput;
+                    while (!sr.EndOfStream)
+                    {
+                        //infos.Add(sr.ReadLine());
+                    }
+                    process.WaitForExit();
+                    //解析
+                    OnGetXMLStringsSuccess?.Invoke();
+                    if (this.infos.Count == 0)
+                    {
+                        //OnDumpFail?.Invoke();
+                        return;
+                    }
+                    // DoParseInfo(sr.CurrentEncoding);
+                }
+            }
+
+        }
+
+        public void GeSourceCode(string xmlPath)
+        {
+            XmlSourcecodeStr = "";
+            xmlPath = xmlPath.Replace('\\', '/');
+            if (string.IsNullOrEmpty(xmlPath))
+                return;
+
+            string unzipPath = Path.Combine(appPath, @"tools\unzip.exe");
+            if (!File.Exists(unzipPath))
+                unzipPath = Path.Combine(appPath, @"unzip.exe");
+            if (!File.Exists(unzipPath))
+                return;
+
+            string destPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(xmlPath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            var startInfo = new ProcessStartInfo(unzipPath);
+            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, xmlPath, Path.GetDirectoryName(Path.GetTempPath()));
+            startInfo.Arguments = args;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            using (var process = Process.Start(startInfo))
+            {
+                process.WaitForExit(2000);
+            }
+
+            if (File.Exists(destPath))
+            {
+                XmlSourcecodeStr = File.ReadAllText(destPath);
+                if (String.IsNullOrEmpty(XmlSourcecodeStr))
+                {
+                    XmlSourcecodeStr = "无效文件";
+                }
+                OnGetSourcecodeSuccess?.Invoke();
+
+                File.Delete(destPath);
+            }
+
+        }
+
+        public void GetResStr(string apkPath)
+        {
+            if (!File.Exists(this.ApkPath))
+                return;
+            string aaptPath = Path.Combine(appPath, @"aapt.exe");
+            if (!File.Exists(aaptPath))
+            {
+                OnAAptMiss?.Invoke();
+                return;
+            }
+            StringBuilder sb = new StringBuilder(255);
+            int result = GetShortPathName(aaptPath, sb, 255);
+            if (result != 0)
+                aaptPath = sb.ToString();
+
+            var startInfo = new ProcessStartInfo("cmd.exe");
+            try
+            {
+
+                OnGetResBegin?.Invoke();
+                string dumpFile = Path.GetTempFileName();
+                //如此费事做中转，只为处理中文乱码
+                string args = string.Format("/k aapt dump resources \"{0}\" > \"{1}\" &exit", this.ApkPath, dumpFile);
+                startInfo.Arguments = args;
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                this.colorList.Clear();
+                using (var process = Process.Start(startInfo))
+                {
+                    process.WaitForExit();
+                }
+                if (File.Exists(dumpFile))
+                {
+                    //解析
+                    using (var sr = new StreamReader(dumpFile, Encoding.UTF8))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            var n = GetValue(line, "color/", ": t=");
+                            var v = GetValue(line, "d=0x", "s=0x");
+                            if (!String.IsNullOrEmpty(n)&&!String.IsNullOrEmpty(v))
+                            {
+                                var r = new ColorList();
+                                r.name = n;
+                                r.value = v.Substring(0, 8);
+                                colorList.Add(r);
+
+                            }
+                        }
+                        if (colorList.Count == 0)
+                        {
+                            OnDumpFail?.Invoke();
+                            return;
+                        }
+                        OnGetResSuccess?.Invoke();
+                    }
+
+                    File.Delete(dumpFile);
+                }
+            }
+            catch
+            {
+                //出了异常，换回命令行解析方式
+
+                startInfo = new ProcessStartInfo(aaptPath);
+                string args = string.Format("dump badging \"{0}\"", this.ApkPath);
+                startInfo.Arguments = args;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.CreateNoWindow = true;
+                using (var process = Process.Start(startInfo))
+                {
+                    var sr = process.StandardOutput;
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+
+                        var n = GetValue(line, "color/", ": t=");
+                        var v = GetValue(line, "d=0x", "s=0x");
+
+                        if (!String.IsNullOrEmpty(n) && !String.IsNullOrEmpty(v))
+                        {
+                            var r = new ColorList();
+                            r.name = n;
+                            r.value = v.Substring(0, 8);
+                            colorList.Add(r);
+
+                        }
+
+                    }
+                    process.WaitForExit();
+                    //解析
+                    if (this.infos.Count == 0)
+                    {
+                        OnDumpFail?.Invoke();
+                        return;
+                    }
+                    OnGetResSuccess?.Invoke();
+
+                }
+            }
+
+        }
+        public void ExportResXml(string exportPath)
+        {
+            exportPath = exportPath + "\\theme.xml";
+            using (StreamWriter file =  new StreamWriter(exportPath))
+            {
+                file.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                   file.WriteLine("<resources>");
+
+                foreach (var item in colorList)
+                {
+                    string str = string.Format("\t<color name=\"{0}\">#{1}</color>", item.name,item.value);
+
+                    file.WriteLine(str);
+
+
+                }
+                file.WriteLine("</resources>");
+                OnExportResSuccess?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// 获得字符串中开始和结束字符串中间得值
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="s">开始</param>
+        /// <param name="e">结束</param>
+        /// <returns></returns>
+        private string GetValue(string str, string s, string e)
+        {
+            Regex rg = new Regex("(?<=(" + s + "))[.\\s\\S]*?(?=(" + e + "))", RegexOptions.Multiline | RegexOptions.Singleline);
+            return rg.Match(str).Value;
+        }
+    }
+
+    public class ColorList
+    {
+        public string name { get; set; }
+        public string value { get; set; }
     }
 }

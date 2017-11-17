@@ -77,11 +77,23 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Ofd = new System.Windows.Forms.OpenFileDialog();
             this.ListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SaveItemMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ResName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ResValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ResColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label14 = new System.Windows.Forms.Label();
+            this.XmlTreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.XmlStringsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SourcecodeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.CovertXmlMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportResBtn = new System.Windows.Forms.Button();
+            this.ExportRes_Fbd = new System.Windows.Forms.FolderBrowserDialog();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -96,6 +108,7 @@
             this.panel3.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.ListMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -539,10 +552,12 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(843, 607);
             this.textBox1.TabIndex = 0;
             this.textBox1.Visible = false;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // panel5
             // 
@@ -596,24 +611,17 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Controls.Add(this.richTextBox1);
+            this.tabPage3.Controls.Add(this.label15);
+            this.tabPage3.Controls.Add(this.textBox2);
+            this.tabPage3.Controls.Add(this.ExportResBtn);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.dataGridView1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(1026, 628);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Color资源";
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1025, 598);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
             // 
             // Ofd
             // 
@@ -624,16 +632,130 @@
             // ListMenu
             // 
             this.ListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SaveItemMenu});
+            this.SaveItemMenu,
+            this.SourcecodeMenu,
+            this.XmlTreeMenu,
+            this.XmlStringsMenu,
+            this.CovertXmlMenu});
             this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(101, 26);
+            this.ListMenu.Size = new System.Drawing.Size(187, 114);
             // 
             // SaveItemMenu
             // 
             this.SaveItemMenu.Name = "SaveItemMenu";
-            this.SaveItemMenu.Size = new System.Drawing.Size(100, 22);
+            this.SaveItemMenu.Size = new System.Drawing.Size(186, 22);
             this.SaveItemMenu.Text = "导出";
             this.SaveItemMenu.Click += new System.EventHandler(this.SaveItemMenu_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ResName,
+            this.ResValue,
+            this.ResColor});
+            this.dataGridView1.Location = new System.Drawing.Point(1, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.Size = new System.Drawing.Size(1025, 599);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // ResName
+            // 
+            this.ResName.HeaderText = "Name";
+            this.ResName.Name = "ResName";
+            this.ResName.ReadOnly = true;
+            this.ResName.Width = 240;
+            // 
+            // ResValue
+            // 
+            this.ResValue.HeaderText = "Value";
+            this.ResValue.Name = "ResValue";
+            this.ResValue.ReadOnly = true;
+            this.ResValue.Width = 200;
+            // 
+            // ResColor
+            // 
+            this.ResColor.HeaderText = "Color";
+            this.ResColor.Name = "ResColor";
+            this.ResColor.ReadOnly = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.ForeColor = System.Drawing.Color.Red;
+            this.label14.Location = new System.Drawing.Point(47, 50);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(101, 12);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "正在解析数据。。";
+            // 
+            // XmlTreeMenu
+            // 
+            this.XmlTreeMenu.Name = "XmlTreeMenu";
+            this.XmlTreeMenu.Size = new System.Drawing.Size(186, 22);
+            this.XmlTreeMenu.Text = "解析（XmlTree）";
+            this.XmlTreeMenu.Visible = false;
+            this.XmlTreeMenu.Click += new System.EventHandler(this.XmlTreeMenu_Click);
+            // 
+            // XmlStringsMenu
+            // 
+            this.XmlStringsMenu.Name = "XmlStringsMenu";
+            this.XmlStringsMenu.Size = new System.Drawing.Size(186, 22);
+            this.XmlStringsMenu.Text = "解析（XmlStrings）";
+            this.XmlStringsMenu.Visible = false;
+            this.XmlStringsMenu.Click += new System.EventHandler(this.XmlStringsMenu_Click);
+            // 
+            // SourcecodeMenu
+            // 
+            this.SourcecodeMenu.Name = "SourcecodeMenu";
+            this.SourcecodeMenu.Size = new System.Drawing.Size(186, 22);
+            this.SourcecodeMenu.Text = "查看源码";
+            this.SourcecodeMenu.Visible = false;
+            this.SourcecodeMenu.Click += new System.EventHandler(this.SourcecodeMenu_Click);
+            // 
+            // CovertXmlMenu
+            // 
+            this.CovertXmlMenu.Name = "CovertXmlMenu";
+            this.CovertXmlMenu.Size = new System.Drawing.Size(186, 22);
+            this.CovertXmlMenu.Text = "XML 格式化";
+            this.CovertXmlMenu.Visible = false;
+            this.CovertXmlMenu.Click += new System.EventHandler(this.CovertXmlMenu_Click);
+            // 
+            // ExportResBtn
+            // 
+            this.ExportResBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportResBtn.Location = new System.Drawing.Point(912, 602);
+            this.ExportResBtn.Name = "ExportResBtn";
+            this.ExportResBtn.Size = new System.Drawing.Size(75, 23);
+            this.ExportResBtn.TabIndex = 2;
+            this.ExportResBtn.Text = "导出";
+            this.ExportResBtn.UseVisualStyleBackColor = true;
+            this.ExportResBtn.Click += new System.EventHandler(this.ExportResBtn_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(42, 602);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(395, 21);
+            this.textBox2.TabIndex = 3;
+            this.textBox2.Visible = false;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(4, 606);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 12);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "查找: ";
+            this.label15.Visible = false;
             // 
             // Main
             // 
@@ -642,6 +764,7 @@
             this.ClientSize = new System.Drawing.Size(1034, 681);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.TopPanel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1050, 720);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -665,7 +788,9 @@
             this.panel5.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ListMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -716,13 +841,25 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.PictureBox ImgRes;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ContextMenuStrip ListMenu;
         private System.Windows.Forms.ToolStripMenuItem SaveItemMenu;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TextBox PathText;
         private System.Windows.Forms.FolderBrowserDialog Fbd;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ResName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ResValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ResColor;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ToolStripMenuItem XmlTreeMenu;
+        private System.Windows.Forms.ToolStripMenuItem XmlStringsMenu;
+        private System.Windows.Forms.ToolStripMenuItem SourcecodeMenu;
+        private System.Windows.Forms.ToolStripMenuItem CovertXmlMenu;
+        private System.Windows.Forms.Button ExportResBtn;
+        private System.Windows.Forms.FolderBrowserDialog ExportRes_Fbd;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

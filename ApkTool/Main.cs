@@ -22,9 +22,12 @@ namespace ApkTool
         }
         private void OpenBtn_Click(object sender, EventArgs e)
         {
-            treeView1.Nodes.Clear();
             if (Ofd.ShowDialog() == DialogResult.OK)
             {
+                treeView1.Nodes.Clear();
+                dataGridView1.Rows.Clear();
+                label14.Enabled = true;
+
                 Program.api.ApkPath = Ofd.FileName;
 
                 Program.api.OnAAptMiss = () => {
@@ -91,11 +94,48 @@ namespace ApkTool
 
                     List_A(Program.api.ApkPath);
                 });
+                Program.api.OnGetResSuccess = () => {
+                    RunInMainthread(() => {
+                        label14.Visible = false;
+                        if (Program.api.colorList.Count != 0)
+                        {
+                            foreach (var item in Program.api.colorList)
+                            {
+                                int index = this.dataGridView1.Rows.Add();
+                                this.dataGridView1.Rows[index].Cells[0].Value = item.name;
+                                this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
+
+                                var c = ToColor(item.value);
+
+                                this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
+                            }
+                            dataGridView1.Refresh();
+                        }
+
+                    });
+                };
+
+
+                RunAsync(() => {
+
+                    getResStr(Program.api.ApkPath);
+                });
+
 
             }
         }
 
+        private int[] ToColor(string hex)
+        {
+            int[] Argb= new int[4];
+            Argb[0] = Convert.ToInt32(hex.Substring(0, 2), 16);
+            Argb[1] = Convert.ToInt32(hex.Substring(2, 2), 16);
+            Argb[2] = Convert.ToInt32(hex.Substring(4, 2), 16);
+            Argb[3] = Convert.ToInt32(hex.Substring(6, 2), 16);
 
+            return Argb;
+
+        }
 
 
 
@@ -116,7 +156,13 @@ namespace ApkTool
         }
 
 
+        private void getResStr(string apkPath)
+        {
+            if (!File.Exists(apkPath))
+                return;
+            Program.api.GetResStr(Program.api.ApkPath);
 
+        }
 
         private void btnPlayStore_Click(object sender, EventArgs e)
         {
@@ -182,13 +228,19 @@ namespace ApkTool
 
                 RunAsync(() => {
 
-                    Program.api.DecodeXml(e.Node.FullPath);
+                    Program.api.GetXMLTree(e.Node.FullPath);
                 });
 
-
-                Program.api.OnDecodeXMLSuccess = () => {
+                Program.api.OnGetXMLTreeFail = () => {
                     RunInMainthread(() => {
-                        textBox1.Text = Program.api.DecodeXML;
+                        textBox1.Text = Program.api.XmlTreeStr;
+                        textBox1.Visible = true;
+                    });
+                };
+
+                Program.api.OnGetXMLTreeSuccess = () => {
+                    RunInMainthread(() => {
+                        textBox1.Text = Program.api.XmlTreeStr;
                         textBox1.Visible = true;
                     });
                 };
@@ -231,21 +283,50 @@ namespace ApkTool
         private string selectedpath;
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
+            XmlTreeMenu.Visible = false;
+            XmlStringsMenu.Visible = false;
+            SourcecodeMenu.Visible = false;
+            CovertXmlMenu.Visible = false;
+            //AXML
             if (e.Button == MouseButtons.Right)//判断你点的是不是右键
             {
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
                 if (CurrentNode != null)//判断你点的是不是一个节点
                 {
-                    CurrentNode.ContextMenuStrip = ListMenu;
-                    //switch (CurrentNode.Name)//根据不同节点显示不同的右键菜单，当然你可以让它显示一样的菜单
-                    //{
-                    //    case "errorUrl":
-                    //        CurrentNode.ContextMenuStrip = ListMenu;
-                    //        break;
-                    //}
                     treeView1.SelectedNode = CurrentNode;//选中这个节点
                     selectedpath = CurrentNode.FullPath;
+                    var FileEx = Path.GetExtension(CurrentNode.FullPath);
+
+                    CurrentNode.ContextMenuStrip = ListMenu;
+                    switch (FileEx)
+                    {
+                        case ".xml":
+                            if (CurrentNode.FullPath.Substring(0, 6) == "assets")
+                            {
+                                //XmlTreeMenu.Visible = true;
+                                //XmlStringsMenu.Visible = true;
+                                //CovertXmlMenu.Visible = true;
+                                SourcecodeMenu.Visible = true;
+                            }
+                            else
+                            {
+                                XmlTreeMenu.Visible = true;
+                                XmlStringsMenu.Visible = true;
+                                CovertXmlMenu.Visible = true;
+                                CovertXmlMenu.Enabled = false;
+                                //SourcecodeMenu.Visible = true;
+                            }
+                            break;
+
+                        case ".svg":
+                            XmlTreeMenu.Visible = true;
+                            XmlStringsMenu.Visible = true;
+                            SourcecodeMenu.Visible = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -292,6 +373,145 @@ namespace ApkTool
                     });
                 }
             }
+        }
+
+
+
+        private void SourcecodeMenu_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+
+
+            RunAsync(() => {
+
+                Program.api.GeSourceCode(selectedpath);
+            });
+
+
+
+            Program.api.OnGetSourcecodeSuccess = () => {
+                RunInMainthread(() => {
+                    textBox1.Text = Program.api.XmlSourcecodeStr;
+                    textBox1.Visible = true;
+                });
+            };
+        }
+
+        private void XmlTreeMenu_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+
+
+            RunAsync(() => {
+
+                Program.api.GetXMLTree(selectedpath);
+            });
+
+            Program.api.OnGetXMLTreeFail = () => {
+                RunInMainthread(() => {
+                    textBox1.Text = Program.api.XmlTreeStr;
+                    textBox1.Visible = true;
+                });
+            };
+
+
+            Program.api.OnGetXMLTreeSuccess = () => {
+                RunInMainthread(() => {
+                    textBox1.Text = Program.api.XmlTreeStr;
+                    textBox1.Visible = true;
+                });
+            };
+        }
+
+        private void XmlStringsMenu_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+
+
+            RunAsync(() => {
+
+                Program.api.GetXMLStrings(selectedpath);
+            });
+
+            Program.api.OnGetXMLStringsFail = () => {
+                RunInMainthread(() => {
+                    textBox1.Text = Program.api.XmlStringsStr;
+                    textBox1.Visible = true;
+                });
+            };
+
+
+            Program.api.OnGetXMLStringsSuccess = () => {
+                RunInMainthread(() => {
+                    textBox1.Text = Program.api.XmlStringsStr;
+                    textBox1.Visible = true;
+                });
+            };
+        }
+
+        private void CovertXmlMenu_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null)
+                return;
+            if (e.KeyChar == (char)1)       // Ctrl-A 相当于输入了AscII=1的控制字符
+            {
+                textBox.SelectAll();
+                e.Handled = true;      // 不再发出“噔”的声音
+            }
+        }
+
+        private void Control_ControlAdded(object sender, ControlEventArgs e)
+        {
+            //使“未来”生效
+            e.Control.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.Control_ControlAdded);
+            //使“子孙”生效
+            foreach (Control c in e.Control.Controls)
+            {
+                Control_ControlAdded(sender, new ControlEventArgs(c));
+            }
+            //使“过去”生效
+            TextBox textBox = e.Control as TextBox;
+            if (textBox != null)
+            {
+                textBox.KeyPress += textBox1_KeyPress;
+            }
+        }
+
+        private string ExportPath = "";
+        private void ExportResBtn_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ExportPath))
+            {
+                //设置此次默认目录为上一次选中目录  
+                Fbd.SelectedPath = ExportPath;
+            }
+
+            if (Fbd.ShowDialog() == DialogResult.OK)
+            {
+                //记录选中的目录  
+                ExportPath = Fbd.SelectedPath;
+                RunAsync(() => {
+                    Program.api.ExportResXml(ExportPath);
+
+                });
+            }
+
+
+            Program.api.OnExportResSuccess = () => {
+                RunInMainthread(() => {
+                    MessageBox.Show("已导出！");
+                });
+            };
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            //Program.api.ResFilter(textBox2.Text);
         }
     }
 }
