@@ -15,6 +15,7 @@ namespace ApkTool
         }
         public static Version ApplicationVersion = new Version(Application.ProductVersion);
         string AppVersion = ApplicationVersion.ToString();
+        private string selectedpath;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -27,103 +28,11 @@ namespace ApkTool
         {
             if (Ofd.ShowDialog() == DialogResult.OK)
             {
-                treeView1.Nodes.Clear();
-                dataGridView1.Rows.Clear();
-                label14.Enabled = true;
+                ResetForm();
 
                 Program.api.ApkPath = Ofd.FileName;
 
-                Program.api.OnAAptMiss = () => {
-                    RunInMainthread(() => {
-                        MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnUzipMiss = () => {
-                    RunInMainthread(() => {
-                        MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnDumpFail = () => {
-                    RunInMainthread(() => {
-                        //MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnDumpSuccess = () => {
-                    RunInMainthread(() => {
-                        txtApplication.Text = Program.api.AppName;
-                        txtVersion.Text = Program.api.AppVersion;
-                        txtVersionCode.Text = Program.api.AppVersionCode;
-                        txtPackage.Text = Program.api.PkgName;
-                        txtIconPath.Text = Program.api.IconPath;
-                        txtMinSdk.Text = Program.api.MinSdk;
-                        txtMinVersion.Text = Program.api.MinVersion;
-                        txtScreenSize.Text = Program.api.ScreenSupport;
-                        txtScreenSolution.Text = Program.api.ScreenSolutions;
-                        txtPermission.Text = Program.api.Permissions;
-                        txtFeature.Text = Program.api.Features;
-                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : imgIcon.ErrorImage;
-
-                        txtApkPath.Text = Program.api.ApkPath;
-                        txtApkSize.Text = Program.api.ApkSize;
-
-                        this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-                        this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-                    });
-                };
-
-
-
-                RunAsync(() => {
-
-                    Dump_Badging(Program.api.ApkPath);
-                });
-
-
-                Program.api.OnAddRootNode = () => {
-                    RunInMainthread(() => {
-                        foreach (var item in Program.api.rootnodes)
-                        {
-                            treeView1.Nodes.Add(item);
-                        }
-
-                    });
-                };
-
-
-                RunAsync(() => {
-
-                    List_A(Program.api.ApkPath);
-                });
-                Program.api.OnGetResSuccess = () => {
-                    RunInMainthread(() => {
-                        label14.Visible = false;
-                        if (Program.api.colorList.Count != 0)
-                        {
-                            foreach (var item in Program.api.colorList)
-                            {
-                                int index = this.dataGridView1.Rows.Add();
-                                this.dataGridView1.Rows[index].Cells[0].Value = item.name;
-                                this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
-
-                                var c = ToColor(item.value);
-
-                                this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
-                            }
-                            dataGridView1.Refresh();
-                        }
-
-                    });
-                };
-
-
-                RunAsync(() => {
-
-                    getResStr(Program.api.ApkPath);
-                });
-
+                OpenApk();
 
             }
         }
@@ -136,8 +45,112 @@ namespace ApkTool
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
-}
 
+            ResetForm();
+
+            Program.api.ApkPath = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            if (File.Exists(Program.api.ApkPath))
+            {
+
+                //Program.api.ApkPath = Program.api.ApkPath;
+                OpenApk();
+            }
+        }
+
+
+        private void OpenApk()
+        {
+            Program.api.OnAAptMiss = () => {
+                RunInMainthread(() => {
+                    MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                });
+            };
+
+            Program.api.OnUzipMiss = () => {
+                RunInMainthread(() => {
+                    MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                });
+            };
+
+            Program.api.OnDumpFail = () => {
+                RunInMainthread(() => {
+                    //MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                });
+            };
+
+            Program.api.OnDumpSuccess = () => {
+                RunInMainthread(() => {
+                    txtApplication.Text = Program.api.AppName;
+                    txtVersion.Text = Program.api.AppVersion;
+                    txtVersionCode.Text = Program.api.AppVersionCode;
+                    txtPackage.Text = Program.api.PkgName;
+                    txtIconPath.Text = Program.api.IconPath;
+                    txtMinSdk.Text = Program.api.MinSdk;
+                    txtMinVersion.Text = Program.api.MinVersion;
+                    txtScreenSize.Text = Program.api.ScreenSupport;
+                    txtScreenSolution.Text = Program.api.ScreenSolutions;
+                    txtPermission.Text = Program.api.Permissions;
+                    txtFeature.Text = Program.api.Features;
+                    imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : imgIcon.ErrorImage;
+
+                    txtApkPath.Text = Program.api.ApkPath;
+                    txtApkSize.Text = Program.api.ApkSize;
+
+                    this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                    this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                });
+            };
+
+
+
+            RunAsync(() => {
+
+                Dump_Badging(Program.api.ApkPath);
+            });
+
+
+            Program.api.OnAddRootNode = () => {
+                RunInMainthread(() => {
+                    foreach (var item in Program.api.rootnodes)
+                    {
+                        treeView1.Nodes.Add(item);
+                    }
+
+                });
+            };
+
+
+            RunAsync(() => {
+
+                List_A(Program.api.ApkPath);
+            });
+            Program.api.OnGetResSuccess = () => {
+                RunInMainthread(() => {
+                    label14.Visible = false;
+                    if (Program.api.colorList.Count != 0)
+                    {
+                        foreach (var item in Program.api.colorList)
+                        {
+                            int index = this.dataGridView1.Rows.Add();
+                            this.dataGridView1.Rows[index].Cells[0].Value = item.name;
+                            this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
+
+                            var c = ToColor(item.value);
+
+                            this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
+                        }
+                        dataGridView1.Refresh();
+                    }
+
+                });
+            };
+
+
+            RunAsync(() => {
+
+                getResStr(Program.api.ApkPath);
+            });
+        }
         private int[] ToColor(string hex)
         {
             int[] Argb= new int[4];
@@ -212,8 +225,6 @@ namespace ApkTool
                     node.Collapse();
             }
 
-
-
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -223,7 +234,7 @@ namespace ApkTool
             button1.Visible = false;
             button2.Visible = false;
             button3.Visible = false;
-
+            PanelChaZhao.Visible = false;
             var FileEx = Path.GetExtension(e.Node.FullPath);
             if (FileEx == ".xml")
             {
@@ -252,6 +263,7 @@ namespace ApkTool
                     {
                         textBox1.Text = Program.api.XmlTreeStr;
                         textBox1.Visible = true;
+                        PanelChaZhao.Visible = true;
                     });
                 };
 
@@ -316,7 +328,6 @@ namespace ApkTool
 
         }
 
-        private string selectedpath;
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
             XmlTreeMenu.Visible = false;
@@ -416,7 +427,12 @@ namespace ApkTool
         private void SourcecodeMenu_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
-
+            textBox1.Visible = false;
+            ImgRes.Visible = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            PanelChaZhao.Visible = false;
 
             RunAsync(() => {
 
@@ -429,6 +445,7 @@ namespace ApkTool
                 RunInMainthread(() => {
                     textBox1.Text = Program.api.XmlSourcecodeStr;
                     textBox1.Visible = true;
+                    PanelChaZhao.Visible = true;
                 });
             };
         }
@@ -437,6 +454,12 @@ namespace ApkTool
         {
             textBox1.Text = "";
 
+            textBox1.Visible = false;
+            ImgRes.Visible = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            PanelChaZhao.Visible = false;
 
             RunAsync(() => {
 
@@ -455,6 +478,7 @@ namespace ApkTool
                 RunInMainthread(() => {
                     textBox1.Text = Program.api.XmlTreeStr;
                     textBox1.Visible = true;
+                    PanelChaZhao.Visible = true;
                 });
             };
         }
@@ -462,7 +486,12 @@ namespace ApkTool
         private void XmlStringsMenu_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
-
+            textBox1.Visible = false;
+            ImgRes.Visible = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            PanelChaZhao.Visible = false;
 
             RunAsync(() => {
 
@@ -481,6 +510,7 @@ namespace ApkTool
                 RunInMainthread(() => {
                     textBox1.Text = Program.api.XmlStringsStr;
                     textBox1.Visible = true;
+                    PanelChaZhao.Visible = true;
                 });
             };
         }
@@ -517,6 +547,7 @@ namespace ApkTool
                 textBox.KeyPress += textBox1_KeyPress;
             }
         }
+
 
         private void ExportResBtn_Click(object sender, EventArgs e)
         {
@@ -565,133 +596,49 @@ namespace ApkTool
 
         private void tabPage1_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Link : DragDropEffects.None;
 
         }
+        int index = 0;
 
-        private void tabPage1_DragDrop(object sender, DragEventArgs e)
+        private void SearchBtn_Click(object sender, EventArgs e)
         {
+            index = textBox1.Text.IndexOf(textBox2.Text, index);
+            if (index < 0)
+            {
+                index = 0;
+                textBox1.SelectionStart = 0;
+                textBox1.SelectionLength = 0;
+                MessageBox.Show("已到结尾");
+                return;
+            }
+            textBox1.SelectionStart = index;
+            textBox1.SelectionLength = textBox2.Text.Length;
+            index = index + textBox2.Text.Length;
+            textBox1.Focus();
+            textBox1.ScrollToCaret();
+        }
 
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+            index = 0;
+        }
+        private void textBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            index = textBox1.SelectionStart;
+        }
+
+        private void ResetForm()
+        {
             treeView1.Nodes.Clear();
             dataGridView1.Rows.Clear();
-            label14.Enabled = true;
-            Program.api.ApkPath = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            if (File.Exists(Program.api.ApkPath))
-            {
-
-                Program.api.ApkPath = Program.api.ApkPath;
-
-                Program.api.OnAAptMiss = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnUzipMiss = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnDumpFail = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        //MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    });
-                };
-
-                Program.api.OnDumpSuccess = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        txtApplication.Text = Program.api.AppName;
-                        txtVersion.Text = Program.api.AppVersion;
-                        txtVersionCode.Text = Program.api.AppVersionCode;
-                        txtPackage.Text = Program.api.PkgName;
-                        txtIconPath.Text = Program.api.IconPath;
-                        txtMinSdk.Text = Program.api.MinSdk;
-                        txtMinVersion.Text = Program.api.MinVersion;
-                        txtScreenSize.Text = Program.api.ScreenSupport;
-                        txtScreenSolution.Text = Program.api.ScreenSolutions;
-                        txtPermission.Text = Program.api.Permissions;
-                        txtFeature.Text = Program.api.Features;
-                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : imgIcon.ErrorImage;
-
-                        txtApkPath.Text = Program.api.ApkPath;
-                        txtApkSize.Text = Program.api.ApkSize;
-
-                        this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-                        this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
-                    });
-                };
-
-
-
-                RunAsync(() =>
-                {
-
-                    Dump_Badging(Program.api.ApkPath);
-                });
-
-
-                Program.api.OnAddRootNode = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        foreach (var item in Program.api.rootnodes)
-                        {
-                            treeView1.Nodes.Add(item);
-                        }
-
-                    });
-                };
-
-
-                RunAsync(() =>
-                {
-
-                    List_A(Program.api.ApkPath);
-                });
-                Program.api.OnGetResSuccess = () =>
-                {
-                    RunInMainthread(() =>
-                    {
-                        label14.Visible = false;
-                        if (Program.api.colorList.Count != 0)
-                        {
-                            foreach (var item in Program.api.colorList)
-                            {
-                                int index = this.dataGridView1.Rows.Add();
-                                this.dataGridView1.Rows[index].Cells[0].Value = item.name;
-                                this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
-
-                                var c = ToColor(item.value);
-
-                                this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
-                            }
-                            dataGridView1.Refresh();
-                        }
-
-                    });
-                };
-
-
-                RunAsync(() =>
-                {
-
-                    getResStr(Program.api.ApkPath);
-                });
-            }
+            label14.Visible = true;
+            textBox1.Visible = false;
+            ImgRes.Visible = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            PanelChaZhao.Visible = false;
         }
-
-
-
-
 
     }
 }
