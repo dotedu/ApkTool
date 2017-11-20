@@ -349,7 +349,44 @@ namespace ApkTool
             }
         }
 
+        public Image GetImagepath(string imagePath)
+        {
 
+            if (string.IsNullOrEmpty(imagePath))
+                return null;
+            string unzipPath = Path.Combine(appPath, @"unzip.exe");
+            if (!File.Exists(unzipPath))
+            {
+                OnUzipMiss?.Invoke();
+                return null;
+            }
+            string destPath = Path.Combine(Path.GetTempPath(), Path.GetFileName(imagePath));
+            if (File.Exists(destPath))
+            {
+                File.Delete(destPath);
+            }
+            var startInfo = new ProcessStartInfo(unzipPath);
+            string args = string.Format("-j \"{0}\" \"{1}\" -d \"{2}\"", this.ApkPath, imagePath, Path.GetDirectoryName(Path.GetTempPath()));
+            startInfo.Arguments = args;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            using (var process = Process.Start(startInfo))
+            {
+                process.WaitForExit(2000);
+            }
+            if (File.Exists(destPath))
+            {
+                using (var fs = new FileStream(destPath, FileMode.Open, FileAccess.Read))
+                {
+                    ImageRes = Image.FromStream(fs);
+                    //OnGetImgSuccess?.Invoke();
+                }
+                File.Delete(destPath);
+                return ImageRes;
+            }
+            return null;
+
+        }
 
         public void GetImage(string imagePath)
         {

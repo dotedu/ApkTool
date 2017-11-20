@@ -77,23 +77,26 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.Ofd = new System.Windows.Forms.OpenFileDialog();
-            this.ListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.SaveItemMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.ExportResBtn = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ResName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label14 = new System.Windows.Forms.Label();
+            this.Ofd = new System.Windows.Forms.OpenFileDialog();
+            this.ListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.SaveItemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SourcecodeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.XmlTreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.XmlStringsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.SourcecodeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.CovertXmlMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExportResBtn = new System.Windows.Forms.Button();
+            this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.ExportRes_Fbd = new System.Windows.Forms.FolderBrowserDialog();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -107,8 +110,8 @@
             this.panel5.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.ListMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.ListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -493,6 +496,8 @@
             // 
             this.imgIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imgIcon.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imgIcon.ErrorImage")));
+            this.imgIcon.InitialImage = null;
             this.imgIcon.Location = new System.Drawing.Point(922, 18);
             this.imgIcon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.imgIcon.Name = "imgIcon";
@@ -527,6 +532,9 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.button3);
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.ImgRes);
             this.panel4.Controls.Add(this.textBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -623,34 +631,54 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Color资源";
             // 
-            // Ofd
+            // label15
             // 
-            this.Ofd.FileName = "打开文件";
-            this.Ofd.Filter = "Apk文件(*.apk)|*.apk";
-            this.Ofd.RestoreDirectory = true;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(4, 606);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 12);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "查找: ";
+            this.label15.Visible = false;
             // 
-            // ListMenu
+            // textBox2
             // 
-            this.ListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SaveItemMenu,
-            this.SourcecodeMenu,
-            this.XmlTreeMenu,
-            this.XmlStringsMenu,
-            this.CovertXmlMenu});
-            this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(187, 114);
+            this.textBox2.Location = new System.Drawing.Point(42, 602);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(395, 21);
+            this.textBox2.TabIndex = 3;
+            this.textBox2.Visible = false;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // SaveItemMenu
+            // ExportResBtn
             // 
-            this.SaveItemMenu.Name = "SaveItemMenu";
-            this.SaveItemMenu.Size = new System.Drawing.Size(186, 22);
-            this.SaveItemMenu.Text = "导出";
-            this.SaveItemMenu.Click += new System.EventHandler(this.SaveItemMenu_Click);
+            this.ExportResBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportResBtn.Location = new System.Drawing.Point(912, 602);
+            this.ExportResBtn.Name = "ExportResBtn";
+            this.ExportResBtn.Size = new System.Drawing.Size(75, 23);
+            this.ExportResBtn.TabIndex = 2;
+            this.ExportResBtn.Text = "导出";
+            this.ExportResBtn.UseVisualStyleBackColor = true;
+            this.ExportResBtn.Click += new System.EventHandler(this.ExportResBtn_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.ForeColor = System.Drawing.Color.Red;
+            this.label14.Location = new System.Drawing.Point(47, 50);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(101, 12);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "正在解析数据。。";
             // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -684,16 +712,37 @@
             this.ResColor.Name = "ResColor";
             this.ResColor.ReadOnly = true;
             // 
-            // label14
+            // Ofd
             // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.Transparent;
-            this.label14.ForeColor = System.Drawing.Color.Red;
-            this.label14.Location = new System.Drawing.Point(47, 50);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(101, 12);
-            this.label14.TabIndex = 1;
-            this.label14.Text = "正在解析数据。。";
+            this.Ofd.FileName = "打开文件";
+            this.Ofd.Filter = "Apk文件(*.apk)|*.apk";
+            this.Ofd.RestoreDirectory = true;
+            // 
+            // ListMenu
+            // 
+            this.ListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SaveItemMenu,
+            this.SourcecodeMenu,
+            this.XmlTreeMenu,
+            this.XmlStringsMenu,
+            this.CovertXmlMenu});
+            this.ListMenu.Name = "ListMenu";
+            this.ListMenu.Size = new System.Drawing.Size(187, 114);
+            // 
+            // SaveItemMenu
+            // 
+            this.SaveItemMenu.Name = "SaveItemMenu";
+            this.SaveItemMenu.Size = new System.Drawing.Size(186, 22);
+            this.SaveItemMenu.Text = "导出";
+            this.SaveItemMenu.Click += new System.EventHandler(this.SaveItemMenu_Click);
+            // 
+            // SourcecodeMenu
+            // 
+            this.SourcecodeMenu.Name = "SourcecodeMenu";
+            this.SourcecodeMenu.Size = new System.Drawing.Size(186, 22);
+            this.SourcecodeMenu.Text = "查看源码";
+            this.SourcecodeMenu.Visible = false;
+            this.SourcecodeMenu.Click += new System.EventHandler(this.SourcecodeMenu_Click);
             // 
             // XmlTreeMenu
             // 
@@ -711,14 +760,6 @@
             this.XmlStringsMenu.Visible = false;
             this.XmlStringsMenu.Click += new System.EventHandler(this.XmlStringsMenu_Click);
             // 
-            // SourcecodeMenu
-            // 
-            this.SourcecodeMenu.Name = "SourcecodeMenu";
-            this.SourcecodeMenu.Size = new System.Drawing.Size(186, 22);
-            this.SourcecodeMenu.Text = "查看源码";
-            this.SourcecodeMenu.Visible = false;
-            this.SourcecodeMenu.Click += new System.EventHandler(this.SourcecodeMenu_Click);
-            // 
             // CovertXmlMenu
             // 
             this.CovertXmlMenu.Name = "CovertXmlMenu";
@@ -727,35 +768,51 @@
             this.CovertXmlMenu.Visible = false;
             this.CovertXmlMenu.Click += new System.EventHandler(this.CovertXmlMenu_Click);
             // 
-            // ExportResBtn
+            // button3
             // 
-            this.ExportResBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportResBtn.Location = new System.Drawing.Point(912, 602);
-            this.ExportResBtn.Name = "ExportResBtn";
-            this.ExportResBtn.Size = new System.Drawing.Size(75, 23);
-            this.ExportResBtn.TabIndex = 2;
-            this.ExportResBtn.Text = "导出";
-            this.ExportResBtn.UseVisualStyleBackColor = true;
-            this.ExportResBtn.Click += new System.EventHandler(this.ExportResBtn_Click);
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(72, 259);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(635, 200);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
             // 
-            // textBox2
+            // button2
             // 
-            this.textBox2.Location = new System.Drawing.Point(42, 602);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(395, 21);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.Visible = false;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(72, 203);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(709, 50);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             // 
-            // label15
+            // button1
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(4, 606);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 12);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "查找: ";
-            this.label15.Visible = false;
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(72, 147);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(635, 50);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             // 
             // Main
             // 
@@ -768,7 +825,7 @@
             this.MinimumSize = new System.Drawing.Size(1050, 720);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "APK资源解析工具";
+            this.Text = "APK资源解析工具 By 魚跃";
             this.Load += new System.EventHandler(this.Main_Load);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
@@ -789,8 +846,8 @@
             this.panel3.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.ListMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.ListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -860,6 +917,9 @@
         private System.Windows.Forms.FolderBrowserDialog ExportRes_Fbd;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 

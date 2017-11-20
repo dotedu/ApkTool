@@ -18,7 +18,7 @@ namespace ApkTool
 
         private void Main_Load(object sender, EventArgs e)
         {
-            this.Text = "APK 辅助解析工具 - " + AppVersion;
+            this.Text = this.Text +" - " + AppVersion;
         }
         private void OpenBtn_Click(object sender, EventArgs e)
         {
@@ -61,7 +61,7 @@ namespace ApkTool
                         txtScreenSolution.Text = Program.api.ScreenSolutions;
                         txtPermission.Text = Program.api.Permissions;
                         txtFeature.Text = Program.api.Features;
-                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : this.Icon.ToBitmap();
+                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : imgIcon.ErrorImage;
 
                         txtApkPath.Text = Program.api.ApkPath;
                         txtApkSize.Text = Program.api.ApkSize;
@@ -219,6 +219,10 @@ namespace ApkTool
         {
             textBox1.Visible = false;
             ImgRes.Visible = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+
             var FileEx = Path.GetExtension(e.Node.FullPath);
             if (FileEx == ".xml")
             {
@@ -226,20 +230,25 @@ namespace ApkTool
 
                 // MessageBox.Show(e.Node.FullPath);
 
-                RunAsync(() => {
+                RunAsync(() =>
+                {
 
                     Program.api.GetXMLTree(e.Node.FullPath);
                 });
 
-                Program.api.OnGetXMLTreeFail = () => {
-                    RunInMainthread(() => {
+                Program.api.OnGetXMLTreeFail = () =>
+                {
+                    RunInMainthread(() =>
+                    {
                         textBox1.Text = Program.api.XmlTreeStr;
                         textBox1.Visible = true;
                     });
                 };
 
-                Program.api.OnGetXMLTreeSuccess = () => {
-                    RunInMainthread(() => {
+                Program.api.OnGetXMLTreeSuccess = () =>
+                {
+                    RunInMainthread(() =>
+                    {
                         textBox1.Text = Program.api.XmlTreeStr;
                         textBox1.Visible = true;
                     });
@@ -248,27 +257,53 @@ namespace ApkTool
             }
             else if (FileEx == ".png" || FileEx == ".jpg" || FileEx == ".gif")
             {
-                RunAsync(() => {
 
-                    Program.api.GetImage(e.Node.FullPath);
-                });
+                //if (e.Node.FullPath.Contains(".9"))
+                //{
 
-                Program.api.OnGetImgSuccess = () => {
-                    RunInMainthread(() => {
-                        ImgRes.Image = Program.api.ImageRes;
-                        ImgRes.Visible = true;
+                //    NinePatch ninePatch = new NinePatch(Program.api.GetImagepath(e.Node.FullPath));
+                //    ninePatch.ClearCache();
+
+
+                //    button1.BackgroundImage = ninePatch.ImageSizeOf(button1.Width, button1.Height);
+                //    button2.BackgroundImage = ninePatch.ImageSizeOf(button2.Width, button2.Height);
+                //    button3.BackgroundImage = ninePatch.ImageSizeOf(button3.Width, button3.Height);
+                //    button1.Visible = true;
+                //    button2.Visible = true;
+                //    button3.Visible = true;
+
+                //}
+
+                //else
+                //{
+                    RunAsync(() => {
+
+                        Program.api.GetImage(e.Node.FullPath);
                     });
-                };
+
+                    Program.api.OnGetImgSuccess = () => {
+                        RunInMainthread(() => {
+                            ImgRes.Image = Program.api.ImageRes;
+                            ImgRes.Visible = true;
+                        });
+                    };
+                //}
+
+
+
             }
             else if (string.IsNullOrEmpty(FileEx))
             {
-                RunAsync(() => {
+                RunAsync(() =>
+                {
 
                     Program.api.SearchCNode(e.Node.FullPath);
                 });
 
-                Program.api.OnAddSubNode = () => {
-                    RunInMainthread(() => {
+                Program.api.OnAddSubNode = () =>
+                {
+                    RunInMainthread(() =>
+                    {
                         foreach (var item in Program.api.subnodes)
                         {
                             e.Node.Nodes.Add(item);
@@ -313,7 +348,7 @@ namespace ApkTool
                             {
                                 XmlTreeMenu.Visible = true;
                                 XmlStringsMenu.Visible = true;
-                                CovertXmlMenu.Visible = true;
+                                CovertXmlMenu.Visible = false;
                                 CovertXmlMenu.Enabled = false;
                                 //SourcecodeMenu.Visible = true;
                             }
