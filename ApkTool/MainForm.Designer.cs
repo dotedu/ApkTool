@@ -1,6 +1,6 @@
 ﻿namespace ApkTool
 {
-    partial class Main
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.OpenBtn = new System.Windows.Forms.ToolStripButton();
@@ -69,6 +69,9 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.ImgRes = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -94,9 +97,6 @@
             this.CovertXmlMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.ExportRes_Fbd = new System.Windows.Forms.FolderBrowserDialog();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.TopPanel.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -126,6 +126,7 @@
             // 
             // ToolBar
             // 
+            this.ToolBar.AllowDrop = true;
             this.ToolBar.BackColor = System.Drawing.SystemColors.Control;
             this.ToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -193,6 +194,7 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.AllowDrop = true;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -206,6 +208,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.AllowDrop = true;
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage1.Controls.Add(this.label13);
             this.tabPage1.Controls.Add(this.txtApkSize);
@@ -241,6 +244,8 @@
             this.tabPage1.Size = new System.Drawing.Size(1026, 628);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "APK信息";
+            this.tabPage1.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabPage1_DragDrop);
+            this.tabPage1.DragEnter += new System.Windows.Forms.DragEventHandler(this.tabPage1_DragEnter);
             // 
             // label13
             // 
@@ -543,6 +548,52 @@
             this.panel4.Size = new System.Drawing.Size(843, 607);
             this.panel4.TabIndex = 7;
             // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(72, 259);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(635, 200);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(72, 203);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(709, 50);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(72, 147);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(635, 50);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            // 
             // ImgRes
             // 
             this.ImgRes.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -768,53 +819,7 @@
             this.CovertXmlMenu.Visible = false;
             this.CovertXmlMenu.Click += new System.EventHandler(this.CovertXmlMenu_Click);
             // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(72, 259);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(635, 200);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(72, 203);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(709, 50);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(72, 147);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(635, 50);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            // 
-            // Main
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -823,10 +828,11 @@
             this.Controls.Add(this.TopPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1050, 720);
-            this.Name = "Main";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "APK资源解析工具 By 魚跃";
-            this.Load += new System.EventHandler(this.Main_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
             this.ToolBar.ResumeLayout(false);

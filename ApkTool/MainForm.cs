@@ -7,19 +7,22 @@ using System.Windows.Forms;
 
 namespace ApkTool
 {
-    public partial class Main : Form
+    public partial class MainForm : Form
     {
-        public Main()
+        public MainForm()
         {
             InitializeComponent();
         }
         public static Version ApplicationVersion = new Version(Application.ProductVersion);
         string AppVersion = ApplicationVersion.ToString();
 
-        private void Main_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text = this.Text +" - " + AppVersion;
         }
+
+        private string ExportPath = "";
+
         private void OpenBtn_Click(object sender, EventArgs e)
         {
             if (Ofd.ShowDialog() == DialogResult.OK)
@@ -125,6 +128,16 @@ namespace ApkTool
             }
         }
 
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Link : DragDropEffects.None;
+
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+}
+
         private int[] ToColor(string hex)
         {
             int[] Argb= new int[4];
@@ -179,19 +192,7 @@ namespace ApkTool
         }
 
 
-        void RunAsync(Action action)
-        {
-            ((Action)(delegate () {
-                action?.Invoke();
-            })).BeginInvoke(null, null);
-        }
 
-        void RunInMainthread(Action action)
-        {
-            this.BeginInvoke((Action)(delegate () {
-                action?.Invoke();
-            }));
-        }
 
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -517,7 +518,6 @@ namespace ApkTool
             }
         }
 
-        private string ExportPath = "";
         private void ExportResBtn_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(ExportPath))
@@ -548,5 +548,150 @@ namespace ApkTool
         {
             //Program.api.ResFilter(textBox2.Text);
         }
+
+        void RunAsync(Action action)
+        {
+            ((Action)(delegate () {
+                action?.Invoke();
+            })).BeginInvoke(null, null);
+        }
+
+        void RunInMainthread(Action action)
+        {
+            this.BeginInvoke((Action)(delegate () {
+                action?.Invoke();
+            }));
+        }
+
+        private void tabPage1_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Link : DragDropEffects.None;
+
+        }
+
+        private void tabPage1_DragDrop(object sender, DragEventArgs e)
+        {
+
+            treeView1.Nodes.Clear();
+            dataGridView1.Rows.Clear();
+            label14.Enabled = true;
+            Program.api.ApkPath = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            if (File.Exists(Program.api.ApkPath))
+            {
+
+                Program.api.ApkPath = Program.api.ApkPath;
+
+                Program.api.OnAAptMiss = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnUzipMiss = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnDumpFail = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        //MessageBox.Show(this, "解析apk文件所需要的组件Uzip.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                };
+
+                Program.api.OnDumpSuccess = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        txtApplication.Text = Program.api.AppName;
+                        txtVersion.Text = Program.api.AppVersion;
+                        txtVersionCode.Text = Program.api.AppVersionCode;
+                        txtPackage.Text = Program.api.PkgName;
+                        txtIconPath.Text = Program.api.IconPath;
+                        txtMinSdk.Text = Program.api.MinSdk;
+                        txtMinVersion.Text = Program.api.MinVersion;
+                        txtScreenSize.Text = Program.api.ScreenSupport;
+                        txtScreenSolution.Text = Program.api.ScreenSolutions;
+                        txtPermission.Text = Program.api.Permissions;
+                        txtFeature.Text = Program.api.Features;
+                        imgIcon.Image = (Program.api.AppIcon != null) ? Program.api.AppIcon : imgIcon.ErrorImage;
+
+                        txtApkPath.Text = Program.api.ApkPath;
+                        txtApkSize.Text = Program.api.ApkSize;
+
+                        this.btnPlayStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                        this.btnQQStore.Enabled = !string.IsNullOrEmpty(txtPackage.Text);
+                    });
+                };
+
+
+
+                RunAsync(() =>
+                {
+
+                    Dump_Badging(Program.api.ApkPath);
+                });
+
+
+                Program.api.OnAddRootNode = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        foreach (var item in Program.api.rootnodes)
+                        {
+                            treeView1.Nodes.Add(item);
+                        }
+
+                    });
+                };
+
+
+                RunAsync(() =>
+                {
+
+                    List_A(Program.api.ApkPath);
+                });
+                Program.api.OnGetResSuccess = () =>
+                {
+                    RunInMainthread(() =>
+                    {
+                        label14.Visible = false;
+                        if (Program.api.colorList.Count != 0)
+                        {
+                            foreach (var item in Program.api.colorList)
+                            {
+                                int index = this.dataGridView1.Rows.Add();
+                                this.dataGridView1.Rows[index].Cells[0].Value = item.name;
+                                this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
+
+                                var c = ToColor(item.value);
+
+                                this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
+                            }
+                            dataGridView1.Refresh();
+                        }
+
+                    });
+                };
+
+
+                RunAsync(() =>
+                {
+
+                    getResStr(Program.api.ApkPath);
+                });
+            }
+        }
+
+
+
+
+
     }
 }
