@@ -65,12 +65,24 @@
             this.label1 = new System.Windows.Forms.Label();
             this.imgIcon = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.PanelChaZhao = new System.Windows.Forms.Panel();
+            this.SearchBtn = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ImgRes = new System.Windows.Forms.PictureBox();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.PanelLeft = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.PathText = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
             this.KeyWordStr = new System.Windows.Forms.TextBox();
+            this.ResetBtn = new System.Windows.Forms.Button();
+            this.ScBtn = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.ExportResBtn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -83,31 +95,19 @@
             this.CovertXmlMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.ExportRes_Fbd = new System.Windows.Forms.FolderBrowserDialog();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.PanelChaZhao = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.ImgRes = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.SearchBtn = new System.Windows.Forms.Button();
-            this.ResName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ToolBar.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.PanelChaZhao.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).BeginInit();
             this.PanelLeft.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.ListMenu.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.PanelChaZhao.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolBar
@@ -497,6 +497,133 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "数据解析";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.PanelChaZhao);
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.ImgRes);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(203, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(823, 624);
+            this.panel1.TabIndex = 11;
+            // 
+            // PanelChaZhao
+            // 
+            this.PanelChaZhao.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.PanelChaZhao.Controls.Add(this.SearchBtn);
+            this.PanelChaZhao.Controls.Add(this.textBox2);
+            this.PanelChaZhao.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelChaZhao.Location = new System.Drawing.Point(0, 588);
+            this.PanelChaZhao.Name = "PanelChaZhao";
+            this.PanelChaZhao.Size = new System.Drawing.Size(823, 36);
+            this.PanelChaZhao.TabIndex = 7;
+            this.PanelChaZhao.Visible = false;
+            // 
+            // SearchBtn
+            // 
+            this.SearchBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SearchBtn.Location = new System.Drawing.Point(740, 8);
+            this.SearchBtn.Name = "SearchBtn";
+            this.SearchBtn.Size = new System.Drawing.Size(75, 23);
+            this.SearchBtn.TabIndex = 9;
+            this.SearchBtn.Text = "查找";
+            this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(6, 9);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(728, 21);
+            this.textBox2.TabIndex = 8;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged_1);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(33, 395);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(337, 93);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(33, 339);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(411, 50);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(33, 283);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(337, 50);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBox1.Location = new System.Drawing.Point(0, 0);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(823, 588);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Visible = false;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.textBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBox1_MouseDown);
+            // 
+            // ImgRes
+            // 
+            this.ImgRes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ImgRes.Location = new System.Drawing.Point(0, 0);
+            this.ImgRes.Name = "ImgRes";
+            this.ImgRes.Size = new System.Drawing.Size(823, 624);
+            this.ImgRes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.ImgRes.TabIndex = 1;
+            this.ImgRes.TabStop = false;
+            this.ImgRes.Visible = false;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(200, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 624);
+            this.splitter1.TabIndex = 10;
+            this.splitter1.TabStop = false;
+            // 
             // PanelLeft
             // 
             this.PanelLeft.Controls.Add(this.treeView1);
@@ -531,8 +658,10 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Controls.Add(this.label15);
             this.tabPage3.Controls.Add(this.KeyWordStr);
+            this.tabPage3.Controls.Add(this.ResetBtn);
+            this.tabPage3.Controls.Add(this.ScBtn);
+            this.tabPage3.Controls.Add(this.label15);
             this.tabPage3.Controls.Add(this.ExportResBtn);
             this.tabPage3.Controls.Add(this.label14);
             this.tabPage3.Controls.Add(this.dataGridView1);
@@ -543,33 +672,60 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Color资源";
             // 
+            // KeyWordStr
+            // 
+            this.KeyWordStr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.KeyWordStr.Location = new System.Drawing.Point(42, 600);
+            this.KeyWordStr.Name = "KeyWordStr";
+            this.KeyWordStr.Size = new System.Drawing.Size(395, 21);
+            this.KeyWordStr.TabIndex = 3;
+            this.KeyWordStr.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // ResetBtn
+            // 
+            this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ResetBtn.Location = new System.Drawing.Point(642, 599);
+            this.ResetBtn.Name = "ResetBtn";
+            this.ResetBtn.Size = new System.Drawing.Size(75, 23);
+            this.ResetBtn.TabIndex = 6;
+            this.ResetBtn.Text = "重置";
+            this.toolTip1.SetToolTip(this.ResetBtn, "重置修改的属性");
+            this.ResetBtn.UseVisualStyleBackColor = true;
+            this.ResetBtn.Visible = false;
+            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
+            // 
+            // ScBtn
+            // 
+            this.ScBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ScBtn.Enabled = false;
+            this.ScBtn.Location = new System.Drawing.Point(466, 599);
+            this.ScBtn.Name = "ScBtn";
+            this.ScBtn.Size = new System.Drawing.Size(75, 23);
+            this.ScBtn.TabIndex = 5;
+            this.ScBtn.Text = "查询";
+            this.ScBtn.UseVisualStyleBackColor = true;
+            this.ScBtn.Click += new System.EventHandler(this.ScBtn_Click);
+            // 
             // label15
             // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(4, 606);
+            this.label15.Location = new System.Drawing.Point(4, 604);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(41, 12);
             this.label15.TabIndex = 4;
             this.label15.Text = "查找: ";
-            this.label15.Visible = false;
-            // 
-            // KeyWordStr
-            // 
-            this.KeyWordStr.Location = new System.Drawing.Point(42, 602);
-            this.KeyWordStr.Name = "KeyWordStr";
-            this.KeyWordStr.Size = new System.Drawing.Size(395, 21);
-            this.KeyWordStr.TabIndex = 3;
-            this.KeyWordStr.Visible = false;
-            this.KeyWordStr.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // ExportResBtn
             // 
-            this.ExportResBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportResBtn.Location = new System.Drawing.Point(912, 598);
+            this.ExportResBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ExportResBtn.Enabled = false;
+            this.ExportResBtn.Location = new System.Drawing.Point(554, 599);
             this.ExportResBtn.Name = "ExportResBtn";
             this.ExportResBtn.Size = new System.Drawing.Size(75, 23);
             this.ExportResBtn.TabIndex = 2;
             this.ExportResBtn.Text = "导出";
+            this.toolTip1.SetToolTip(this.ExportResBtn, "导出所选项为theme.xml！");
             this.ExportResBtn.UseVisualStyleBackColor = true;
             this.ExportResBtn.Click += new System.EventHandler(this.ExportResBtn_Click);
             // 
@@ -578,7 +734,7 @@
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.Transparent;
             this.label14.ForeColor = System.Drawing.Color.Red;
-            this.label14.Location = new System.Drawing.Point(47, 50);
+            this.label14.Location = new System.Drawing.Point(40, 23);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(101, 12);
             this.label14.TabIndex = 1;
@@ -586,6 +742,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -593,15 +750,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ResName,
-            this.ResValue,
-            this.ResColor});
             this.dataGridView1.Location = new System.Drawing.Point(1, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1025, 595);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(1025, 596);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // Ofd
             // 
@@ -659,152 +816,6 @@
             this.CovertXmlMenu.Visible = false;
             this.CovertXmlMenu.Click += new System.EventHandler(this.CovertXmlMenu_Click);
             // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(200, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 624);
-            this.splitter1.TabIndex = 10;
-            this.splitter1.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.PanelChaZhao);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.ImgRes);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(203, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(823, 624);
-            this.panel1.TabIndex = 11;
-            // 
-            // PanelChaZhao
-            // 
-            this.PanelChaZhao.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.PanelChaZhao.Controls.Add(this.SearchBtn);
-            this.PanelChaZhao.Controls.Add(this.textBox2);
-            this.PanelChaZhao.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelChaZhao.Location = new System.Drawing.Point(0, 588);
-            this.PanelChaZhao.Name = "PanelChaZhao";
-            this.PanelChaZhao.Size = new System.Drawing.Size(823, 36);
-            this.PanelChaZhao.TabIndex = 7;
-            this.PanelChaZhao.Visible = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(823, 588);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Visible = false;
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            this.textBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBox1_MouseDown);
-            // 
-            // ImgRes
-            // 
-            this.ImgRes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ImgRes.Location = new System.Drawing.Point(0, 0);
-            this.ImgRes.Name = "ImgRes";
-            this.ImgRes.Size = new System.Drawing.Size(823, 624);
-            this.ImgRes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.ImgRes.TabIndex = 1;
-            this.ImgRes.TabStop = false;
-            this.ImgRes.Visible = false;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(33, 283);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(337, 50);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(33, 339);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(411, 50);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(33, 395);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(337, 93);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(6, 9);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(728, 21);
-            this.textBox2.TabIndex = 8;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged_1);
-            // 
-            // SearchBtn
-            // 
-            this.SearchBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SearchBtn.Location = new System.Drawing.Point(740, 8);
-            this.SearchBtn.Name = "SearchBtn";
-            this.SearchBtn.Size = new System.Drawing.Size(75, 23);
-            this.SearchBtn.TabIndex = 9;
-            this.SearchBtn.Text = "查找";
-            this.SearchBtn.UseVisualStyleBackColor = true;
-            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
-            // 
-            // ResName
-            // 
-            this.ResName.HeaderText = "Name";
-            this.ResName.Name = "ResName";
-            this.ResName.ReadOnly = true;
-            this.ResName.Width = 240;
-            // 
-            // ResValue
-            // 
-            this.ResValue.HeaderText = "Value";
-            this.ResValue.Name = "ResValue";
-            this.ResValue.Width = 200;
-            // 
-            // ResColor
-            // 
-            this.ResColor.HeaderText = "Color";
-            this.ResColor.Name = "ResColor";
-            this.ResColor.ReadOnly = true;
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -818,6 +829,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "APK资源解析工具 By 魚跃";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.ToolBar.ResumeLayout(false);
@@ -827,17 +839,17 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgIcon)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.PanelChaZhao.ResumeLayout(false);
+            this.PanelChaZhao.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).EndInit();
             this.PanelLeft.ResumeLayout(false);
             this.PanelLeft.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ListMenu.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.PanelChaZhao.ResumeLayout(false);
-            this.PanelChaZhao.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgRes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -907,9 +919,9 @@
         private System.Windows.Forms.PictureBox ImgRes;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button SearchBtn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ResName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ResValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ResColor;
+        private System.Windows.Forms.Button ResetBtn;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button ScBtn;
     }
 }
 

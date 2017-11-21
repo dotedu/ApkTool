@@ -55,6 +55,7 @@
     <Compile Include="ApkInfo.Designer.cs">
       <DependentUpon>ApkInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="datagridviewCheckboxHeaderCell.cs" />
     <Compile Include="DecodeProvider.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -16,13 +17,19 @@ namespace ApkTool
         public static Version ApplicationVersion = new Version(Application.ProductVersion);
         string AppVersion = ApplicationVersion.ToString();
         private string selectedpath;
+        private DataTable dtRes = new DataTable();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Text = this.Text +" - " + AppVersion;
+            dtRes.Columns.Add("是否选择", System.Type.GetType("System.Boolean"));
+            dtRes.Columns.Add(new DataColumn("Name"));
+            dtRes.Columns.Add(new DataColumn("Value"));
+            dtRes.Columns.Add(new DataColumn("Color"));
         }
 
         private string ExportPath = "";
+        public Action OnExportResSuccess;
 
         private void OpenBtn_Click(object sender, EventArgs e)
         {
@@ -60,6 +67,8 @@ namespace ApkTool
 
         private void OpenApk()
         {
+
+
             Program.api.OnAAptMiss = () => {
                 RunInMainthread(() => {
                     MessageBox.Show(this, "解析apk文件所需要的组件aapt.exe遗失，请下载此程序完整组件然后再试。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -127,19 +136,39 @@ namespace ApkTool
             Program.api.OnGetResSuccess = () => {
                 RunInMainthread(() => {
                     label14.Visible = false;
+                    ScBtn.Enabled = true;
+                    ExportResBtn.Enabled = true;
                     if (Program.api.colorList.Count != 0)
                     {
+                        //DataTable dt = CreateDataTable();
+                        dataGridView1.DataSource = dtRes;
+                        dataGridView1.Columns["Name"].ReadOnly = true;
+                        dataGridView1.Columns["Color"].ReadOnly = true;
+                        dataGridView1.Columns["是否选择"].Width = 100;
+                        dataGridView1.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        dataGridView1.Columns["Value"].Width = 100;
+                        dataGridView1.Columns["Color"].Width = 100;
+
                         foreach (var item in Program.api.colorList)
                         {
-                            int index = this.dataGridView1.Rows.Add();
-                            this.dataGridView1.Rows[index].Cells[0].Value = item.name;
-                            this.dataGridView1.Rows[index].Cells[1].Value = item.value.Insert(0, "#");
-
+                            dtRes.Rows.Add(new object[] { false, item.name, item.value.Insert(0, "#"), "" });
+                            
                             var c = ToColor(item.value);
-
-                            this.dataGridView1.Rows[index].Cells[2].Style.BackColor = Color.FromArgb(c[0], c[1], c[2], c[3]);
+                            if (c[0]!=255)
+                            {
+                                c[0] = 255;
+                            }
+                            var a = c[0] == 255 ? c[0] : 255;
+                            dataGridView1.Rows[dtRes.Rows.Count - 1].Cells[3].Style.BackColor = Color.FromArgb(a, c[1], c[2], c[3]);
                         }
-                        dataGridView1.Refresh();
+
+                        datagridviewCheckboxHeaderCell ch = new datagridviewCheckboxHeaderCell();
+                        ch.OnCheckBoxClicked += new datagridviewCheckboxHeaderCell.HeaderEventHander(ch_OnCheckBoxClicked);
+                        DataGridViewCheckBoxColumn checkboxCol = dataGridView1.Columns["是否选择"] as DataGridViewCheckBoxColumn;
+                        checkboxCol.HeaderCell = ch;
+                        checkboxCol.HeaderCell.Value = "全选";
+                        dataGridView1.Rows[0].Cells[2].Selected = true;
+
                     }
 
                 });
@@ -150,7 +179,9 @@ namespace ApkTool
 
                 getResStr(Program.api.ApkPath);
             });
-        }
+            }
+
+
         private int[] ToColor(string hex)
         {
             int[] Argb= new int[4];
@@ -562,23 +593,19 @@ namespace ApkTool
                 //记录选中的目录  
                 ExportPath = Fbd.SelectedPath;
                 RunAsync(() => {
-                    Program.api.ExportResXml(ExportPath);
+                    ExportResXml(ExportPath);
 
                 });
             }
 
 
-            Program.api.OnExportResSuccess = () => {
+            OnExportResSuccess = () => {
                 RunInMainthread(() => {
                     MessageBox.Show("已导出！");
                 });
             };
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            //Program.api.ResFilter(textBox2.Text);
-        }
 
         void RunAsync(Action action)
         {
@@ -602,7 +629,7 @@ namespace ApkTool
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
-            index = textBox1.Text.IndexOf(textBox2.Text, index);
+            index = textBox1.Text.IndexOf(textBox2.Text, index,StringComparison.OrdinalIgnoreCase);
             if (index < 0)
             {
                 index = 0;
@@ -626,11 +653,33 @@ namespace ApkTool
         {
             index = textBox1.SelectionStart;
         }
+        public void ExportResXml(string exportPath)
+        {
+            exportPath = exportPath + "\\theme.xml";
+            using (StreamWriter file = new StreamWriter(exportPath))
+            {
+                file.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                file.WriteLine("<resources>");
 
+
+                foreach (DataGridViewRow dgvRow in dataGridView1.Rows)
+                {
+                    if ( Convert.ToBoolean(dgvRow.Cells[0].Value))
+                    {
+                        string str = string.Format("\t<color name=\"{0}\">#{1}</color>", dgvRow.Cells[1].Value, dgvRow.Cells[2].Value);
+
+                        file.WriteLine(str);
+                    }
+
+                }
+                file.WriteLine("</resources>");
+                OnExportResSuccess?.Invoke();
+            }
+        }
         private void ResetForm()
         {
             treeView1.Nodes.Clear();
-            dataGridView1.Rows.Clear();
+            //dataGridView1.Rows.Clear();
             label14.Visible = true;
             textBox1.Visible = false;
             ImgRes.Visible = false;
@@ -638,7 +687,86 @@ namespace ApkTool
             button2.Visible = false;
             button3.Visible = false;
             PanelChaZhao.Visible = false;
+            ScBtn.Enabled = false;
+            ExportResBtn.Enabled = false;
+            dtRes.Clear();
+        }
+        void ch_OnCheckBoxClicked(object sender, datagridviewCheckboxHeaderEventArgs e)   
+        {  
+            foreach (DataGridViewRow dgvRow in dataGridView1.Rows)   
+            {  
+                if (e.CheckedState)  
+                {  
+                    dgvRow.Cells[0].Value = true;   
+                }   
+                else   
+                {  
+                    dgvRow.Cells[0].Value = false;   
+                }  
+            }   
         }
 
+
+
+        private void ResetBtn_Click(object sender, EventArgs e)
+            
+        {
+            var t = dtRes.Rows.Count;
+            dataGridView1.Refresh();
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var r = e.RowIndex;
+            var c = e.ColumnIndex;
+            if (r >= 0 && c > 0)
+            {
+                dataGridView1.Rows[r].Cells[c].Style.BackColor = Color.FromArgb(179, 229, 252);
+
+            }
+        }
+        int index2 = 0;
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            index2 = 0;//Program.api.ResFilter(textBox2.Text);
+        }
+
+        private void ScBtn_Click(object sender, EventArgs e)
+        {
+
+            for (int i = index2; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[1].Value.ToString().IndexOf(KeyWordStr.Text, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    if (i == dataGridView1.Rows.Count - 1)
+                    {
+                        index2 = 0;
+                    }
+                    else
+                    {
+                        index2 = i + 1;
+                    }
+                   
+                    dataGridView1.Rows[i].Cells[1].Selected = true;
+                    dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.CurrentRow.Index;
+                    return;
+                }
+                if (i== dataGridView1.Rows.Count-1)
+                {
+                    index2 = 0;
+                    MessageBox.Show("已到结尾");
+                }
+            }
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.ColumnIndex == 0)
+            {
+                dataGridView1.EndEdit();
+                dataGridView1.Rows[e.RowIndex].Cells[2].Selected = true;
+
+            }
+        }
     }
 }

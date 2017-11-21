@@ -964,26 +964,7 @@ namespace ApkTool
             }
 
         }
-        public void ExportResXml(string exportPath)
-        {
-            exportPath = exportPath + "\\theme.xml";
-            using (StreamWriter file =  new StreamWriter(exportPath))
-            {
-                file.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-                   file.WriteLine("<resources>");
 
-                foreach (var item in colorList)
-                {
-                    string str = string.Format("\t<color name=\"{0}\">#{1}</color>", item.name,item.value);
-
-                    file.WriteLine(str);
-
-
-                }
-                file.WriteLine("</resources>");
-                OnExportResSuccess?.Invoke();
-            }
-        }
 
         /// <summary>
         /// 获得字符串中开始和结束字符串中间得值
