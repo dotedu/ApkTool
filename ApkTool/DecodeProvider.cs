@@ -26,6 +26,7 @@ namespace ApkTool
         public string ScreenSolutions { get; set; }
         public string Permissions { get; set; }
         public string Features { get; set; }
+        public string Launchactivity { get; set; }
 
         public string SavePath { get; set; }
 
@@ -281,6 +282,12 @@ namespace ApkTool
                     string permission = info.Substring(info.LastIndexOf('.') + 1).Replace("'", "");
                     this.Permissions += permission + "\r\n";
                 }
+
+                if (info.IndexOf("launchable-activity:") == 0)
+                {
+                    this.Launchactivity = GetKeyValue(info, "name=");
+                }
+                
 
                 //uses-feature:'android.hardware.touchscreen'
                 if (info.IndexOf("uses-feature:") == 0)

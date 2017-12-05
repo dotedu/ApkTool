@@ -94,6 +94,7 @@ namespace ApkTool
                     txtVersionCode.Text = Program.api.AppVersionCode;
                     txtPackage.Text = Program.api.PkgName;
                     txtIconPath.Text = Program.api.IconPath;
+                    textLaunchactivity.Text = Program.api.Launchactivity;
                     txtMinSdk.Text = Program.api.MinSdk;
                     txtMinVersion.Text = Program.api.MinVersion;
                     txtScreenSize.Text = Program.api.ScreenSupport;
@@ -666,7 +667,7 @@ namespace ApkTool
                 {
                     if ( Convert.ToBoolean(dgvRow.Cells[0].Value))
                     {
-                        string str = string.Format("\t<color name=\"{0}\">#{1}</color>", dgvRow.Cells[1].Value, dgvRow.Cells[2].Value);
+                        string str = string.Format("\t<color name=\"{0}\">{1}</color>", dgvRow.Cells[1].Value, dgvRow.Cells[2].Value);
 
                         file.WriteLine(str);
                     }

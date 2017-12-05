@@ -96,6 +96,8 @@
             this.Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.ExportRes_Fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.textLaunchactivity = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.ToolBar.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -186,6 +188,8 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.textLaunchactivity);
+            this.tabPage1.Controls.Add(this.label16);
             this.tabPage1.Controls.Add(this.label13);
             this.tabPage1.Controls.Add(this.txtApkSize);
             this.tabPage1.Controls.Add(this.txtApkPath);
@@ -334,10 +338,10 @@
             // 
             this.txtIconPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIconPath.Location = new System.Drawing.Point(89, 119);
+            this.txtIconPath.Location = new System.Drawing.Point(538, 94);
             this.txtIconPath.Name = "txtIconPath";
             this.txtIconPath.ReadOnly = true;
-            this.txtIconPath.Size = new System.Drawing.Size(931, 21);
+            this.txtIconPath.Size = new System.Drawing.Size(380, 21);
             this.txtIconPath.TabIndex = 28;
             // 
             // txtPackage
@@ -347,7 +351,7 @@
             this.txtPackage.Location = new System.Drawing.Point(89, 94);
             this.txtPackage.Name = "txtPackage";
             this.txtPackage.ReadOnly = true;
-            this.txtPackage.Size = new System.Drawing.Size(829, 21);
+            this.txtPackage.Size = new System.Drawing.Size(380, 21);
             this.txtPackage.TabIndex = 27;
             // 
             // txtVersionCode
@@ -437,7 +441,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 122);
+            this.label4.Location = new System.Drawing.Point(475, 98);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 29;
@@ -476,7 +480,7 @@
             this.imgIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imgIcon.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imgIcon.ErrorImage")));
             this.imgIcon.InitialImage = null;
-            this.imgIcon.Location = new System.Drawing.Point(922, 18);
+            this.imgIcon.Location = new System.Drawing.Point(924, 19);
             this.imgIcon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.imgIcon.Name = "imgIcon";
             this.imgIcon.Size = new System.Drawing.Size(96, 96);
@@ -816,6 +820,25 @@
             this.CovertXmlMenu.Visible = false;
             this.CovertXmlMenu.Click += new System.EventHandler(this.CovertXmlMenu_Click);
             // 
+            // textLaunchactivity
+            // 
+            this.textLaunchactivity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textLaunchactivity.Location = new System.Drawing.Point(89, 119);
+            this.textLaunchactivity.Name = "textLaunchactivity";
+            this.textLaunchactivity.ReadOnly = true;
+            this.textLaunchactivity.Size = new System.Drawing.Size(931, 21);
+            this.textLaunchactivity.TabIndex = 50;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(18, 123);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 49;
+            this.label16.Text = "启动类：";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -922,6 +945,8 @@
         private System.Windows.Forms.Button ResetBtn;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button ScBtn;
+        private System.Windows.Forms.TextBox textLaunchactivity;
+        private System.Windows.Forms.Label label16;
     }
 }
 
